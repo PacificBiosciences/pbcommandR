@@ -79,18 +79,20 @@ SymbolTypes <- .toSymbolTypes()
 ResourceTypes <- .toResourceTypes()
 
 registerTaskFunc <- function() {
+    # dict of all registered metatasks
     xRegistry <- hash()
+
     registerTask <- function(metaTask) {
-        cat("Registering task\n")
-        cat(metaTask)
+        logger.debug(paste("Registering task", metaTask@taskId))
+        xRegistry[metaTask@taskId] <- metaTask
         return(metaTask)
     }
     getRegisteredTasks <- function() {
         return(values(xRegistry))
     }
     getRegisteredTaskById <- function(taskId) {
-        cat(paste("Getting task ", taskId, "\n"))
-        return("mock task")
+        logger.debug(paste("Getting task ", taskId, "\n"))
+        return(xRegistry[[taskId]])
     }
     funcs <- c("getRegisteredTasks"=getRegisteredTasks, "getRegisteredById"=getRegisteredTaskById, "registerTask"=registerTask)
     return(funcs)
@@ -130,6 +132,7 @@ registerMetaTask <- function(taskId, taskType, inputTypes, outputTypes, taskOpti
     #logger.debug(metaTask) # this fails
     #cat("Comand\n")
     #cat(toCmd())
+    registry$registerTask(metaTask)
     return(metaTask)
 }
 
