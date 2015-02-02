@@ -1,6 +1,7 @@
 #!/usr/bin/env Rscript
 
-library(RJSONIO)
+library(methods)
+library(jsonlite)
 
 # pbReport Model
 setClass("ReportTable",

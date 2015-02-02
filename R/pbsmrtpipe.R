@@ -3,10 +3,16 @@ library(hash)
 
 fileNamespace <- "pbsmrtpipeR"
 
-toFileTypeId <- function(s) {
-    return(paste(fileNamespace, "files", s, sep="."))
+# Package level logging
+.log <- function(level, msg) {
+  cat(paste("[", level, "] ", msg, "\n", sep=""))
 }
 
+logger.info <- function(msg) {.log("INFO", msg)}
+# FIXME. Use partial application
+logger.debug <- function(msg) {.log("DEBUG", msg)}
+logger.warn <- function(msg) {.log("WARN", msg)}
+logger.error <- function(msg) {.log("ERROR", msg)}
 
 setClass("FileType", representation(fileTypeId="character",
                                     baseName="character",
@@ -27,27 +33,50 @@ setClass("TaskOption", representation(optionId="character",
                                       description="character",
                                       defaultValue="character"))
 
+setClass("TaskTypes", representation(LOCAL="character", DISTRIBUTED="character"))
+
+
+.toId <- function(prefix, s) {paste(fileNamespace, prefix, s, sep=".")}
+
+toFileTypeId <- function(s) { return(paste("pbsmrtpipe", "files", s))}
+toTaskOptionId <- function(s) {return(.toId("task_options", s))}
+toTaskId <- function(s) {return(.toId("tasks", s))}
+
+TaskTypes <- new("TaskTypes", LOCAL="pbsmrtpipe.task_types.local", DISTRIBUTED="pbsmrtpipe.task_types.distributed")
+
 toFileTypes <- function() {
+  # these are ported from pbsmrtpipe
+  toF <- function(idx, baseName, fileExt, mimeType) {
+    f <- new("FileType", fileTypeId=toFileTypeId(idx), baseName=baseName, fileExt=fileExt, mimeType=mimeType)
+    return(f)
+  }
     fasta <- new("FileType", fileTypeId=toFileTypeId("fasta"), baseName="file", fileExt="fasta", mimeType="text/plain")
     fastq <- new("FileType", fileTypeId=toFileTypeId("fastq"), baseName="file", fileExt="fastq", mimeType="text/plain")
-    return(c(fasta=fasta, fastq=fastq))
+    gff <- new("FileType", fileTypeId=toFileTypeId("gff"), baseName="file", fileExt="gff", mimeType="text/plain")
+    rpt <- toF("report", "file.report", "json", "application/json")
+    return(c(FASTA=fasta, FASTQ=fastq, GFF=gff, REPORT=rpt))
 }
 
 FileTypes <- toFileTypes()
 
-toSymbolTypes <- function() {
-    symbolTypes = c("MAX_NPROC"="$max_nproc", "MAX_NCHUNKS"="$max_nchunks")
-    return(symbolTypes)
+.toSymbolTypes <- function() {
+  # Ported from pbsmrtpipe
+  symbolTypes = c("MAX_NPROC"="$max_nproc", "MAX_NCHUNKS"="$max_nchunks")
+  return(symbolTypes)
 }
 
-toResourceTypes <- function() {
+SymbolTypes <- .toSymbolTypes()
+
+.toResourceTypes <- function() {
     resourceTypes = c("TMP_DIR"="$tmpdir", "TMP_FILE"="$tmpfile", "LOG_FILE"="$logfile")
     return(resourceTypes)
 }
 
+ResourceTypes <- .toResourceTypes()
+
 registerTaskFunc <- function() {
     xRegistry <- hash()
-    registerFunc <- function(metaTask) {
+    registerTask <- function(metaTask) {
         cat("Registering task\n")
         cat(metaTask)
         return(metaTask)
@@ -59,63 +88,77 @@ registerTaskFunc <- function() {
         cat(paste("Getting task ", taskId, "\n"))
         return("mock task")
     }
-    funcs <- c("getRegisteredTasks"=getRegisteredTasks, "getRegisteredById"=getRegisteredTaskById)
+    funcs <- c("getRegisteredTasks"=getRegisteredTasks, "getRegisteredById"=getRegisteredTaskById, "registerTask"=registerTask)
     return(funcs)
 }
 
 # Global Regsitry
-registery <- registerTaskFunc()
+registry <- registerTaskFunc()
 
 toTaskOption <- function(taskOptionId, jsonSchemaTypes, displayName, description, defaultValue) {
     opts <- c("optionId"=taskOptionId)
     return(opts)
 }
 
-registerMetaTask <- function(taskId, taskType, inputTypes, outputTypes, toCmd) {
-    metaTask <- c("taskId"=taskId, "toCmd"=toCmd)
-    cat(paste("Registering task", taskId, "\n"))
-    cat("Comand\n")
-    cat(toCmd())
+#' Register a MetaTask
+#'
+#' @param taskId The metatask id
+#' @param taskType the task type
+#' @param inputTypes a list of file types
+#' @param outputTypes a list of file types
+#' @param taskOptions a hash of taskOptionId -> JsonSchema
+#' @param nproc the number of processors
+#' @param resources the list of Resource types
+#' @return A metaTask instance
+registerMetaTask <- function(taskId, taskType, inputTypes, outputTypes, taskOptions, nproc, resources, toCmd) {
+    metaTask <- new("MetaTask", taskId=taskId, taskType=taskType,
+                    inputTypes=inputTypes,
+                    outputTypes=outputTypes)
+    logger.debug(paste("Registering task", taskId, "\n"))
+    logger.debug(metaTask)
+    #cat("Comand\n")
+    #cat(toCmd())
     return(metaTask)
 }
 
-# Example Tasks
-myTask <- registerMetaTask("task_01", "local",
-                           c(FileTypes$FASTA, FileTypes$GFF), c(FileTypes$CSV),
-                           function(inputFiles, outputFiles, nproc) {
-                               cat("Running task_01 command\n")
-                               return(1)
-                           }
-                          )
-
-myTask2Cmd <- function(inputFiles, outputFiles, nproc) {
-    cat("Running my task 2 custom command")
-    return(0)
-}
-
-# non-inline Alternative way of writing a task
-myTask2 <- registerMetaTask("task_02", "local", c("fastq"), c("csv"), myTask2Cmd)
-
 runTask <- function(taskId, inputFiles, outputFiles, nproc, resources) {
-    cat(paste("Running task id", taskId, "\n"))
+  # grab task from the registry by id and run the toCmd func
+    cat(paste("Mock Running task id", taskId, "\n"))
     return(0)
 }
 
+#---------------------------------Driver Manifest ------------------------------------
+setClass("DriverManifest", representation(taskId="character",
+                                          inputFiles="character",
+                                          outputFiles="character",
+                                          taskOptions="hash",
+                                          nproc="numeric",
+                                          resources="character"))
 
-main <- function() {
-    # Function for running demo
-    cat("Starting main\n")
-                                        #cat(registery)
-    x <- toTaskOption("myOptionId", c("null", "string"), "My Option", "My Option that does X", "Default value")
-    cat(x)
-    i <- toFileTypeId("bam")
-    s <- toSymbolTypes()
-    r <- toResourceTypes()
-    cat(r)
-    cat(s)
-    cat(paste("\nFile type ", i, "\n"))
-    cat("Exiting  main\n")
+
+loadManifestFromPath <- function(path) {
+    logger.info(paste("Loading manifest from", path))
+    if(file.exists(path)){
+        s <- readChar(path, file.info(path)$size)
+        d <- fromJSON(s)
+        return(d)
+    } else {
+        m <- paste("Unable to find manifest file", "'", path, "'")
+        logger.info(msg, "ERROR")
+        stop(m)
+    }
 }
 
+manifestToObject <- function(d) {
+    taskId <- d$task$task_id
+    inputFiles <- d$task$input_files
+    outputFiles <- d$task$output_files
+    driverManifest <- new("DriverManifest", taskId=taskId, inputFiles=inputFiles, outputFiles=outputFiles, nproc=1)
+    return(driverManifest)
+}
+
+loadManifest <- function(path) {
+    return(manifestToObject(loadManifestFromPath(path)))
+}
 
 
