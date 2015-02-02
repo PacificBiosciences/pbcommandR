@@ -23,6 +23,9 @@ setClass("MetaTask", representation(taskId="character",
                                     taskType="character",
                                     inputTypes="list",
                                     outputTypes="list",
+                                    taskOptions="list",
+                                    nproc="numeric",
+                                    resourceTypes="list",
                                     name="character",
                                     description="character"))
 
@@ -50,25 +53,26 @@ toFileTypes <- function() {
     f <- new("FileType", fileTypeId=toFileTypeId(idx), baseName=baseName, fileExt=fileExt, mimeType=mimeType)
     return(f)
   }
-    fasta <- new("FileType", fileTypeId=toFileTypeId("fasta"), baseName="file", fileExt="fasta", mimeType="text/plain")
-    fastq <- new("FileType", fileTypeId=toFileTypeId("fastq"), baseName="file", fileExt="fastq", mimeType="text/plain")
-    gff <- new("FileType", fileTypeId=toFileTypeId("gff"), baseName="file", fileExt="gff", mimeType="text/plain")
-    rpt <- toF("report", "file.report", "json", "application/json")
-    return(c(FASTA=fasta, FASTQ=fastq, GFF=gff, REPORT=rpt))
+  fasta <- new("FileType", fileTypeId=toFileTypeId("fasta"), baseName="file", fileExt="fasta", mimeType="text/plain")
+  fasta <- toF("fasta", "file", "fasta", "text/plain")
+  fastq <- toF("fastq", "file", "fastq", "text/plain")
+  gff <- toF("gff", "file", "gff", "text/plain")
+  pbrpt <- toF("report", "file.report", "json", "application/json")
+  return(c(FASTA=fasta, FASTQ=fastq, GFF=gff, REPORT=pbrpt))
 }
 
 FileTypes <- toFileTypes()
 
 .toSymbolTypes <- function() {
   # Ported from pbsmrtpipe
-  symbolTypes = c("MAX_NPROC"="$max_nproc", "MAX_NCHUNKS"="$max_nchunks")
+  symbolTypes <- list(MAX_NPROC="$max_nproc", MAX_NCHUNKS="$max_nchunks")
   return(symbolTypes)
 }
 
 SymbolTypes <- .toSymbolTypes()
 
 .toResourceTypes <- function() {
-    resourceTypes = c("TMP_DIR"="$tmpdir", "TMP_FILE"="$tmpfile", "LOG_FILE"="$logfile")
+    resourceTypes <- list(TMP_DIR="$tmpdir", TMP_FILE="$tmpfile", LOG_FILE="$logfile")
     return(resourceTypes)
 }
 
@@ -110,12 +114,20 @@ toTaskOption <- function(taskOptionId, jsonSchemaTypes, displayName, description
 #' @param nproc the number of processors
 #' @param resources the list of Resource types
 #' @return A metaTask instance
-registerMetaTask <- function(taskId, taskType, inputTypes, outputTypes, taskOptions, nproc, resources, toCmd) {
-    metaTask <- new("MetaTask", taskId=taskId, taskType=taskType,
+registerMetaTask <- function(taskId, taskType, inputTypes, outputTypes, taskOptions, nproc, resourceTypes, toCmd) {
+    desc <- "Task Description"
+    name <- paste("MetaTask", taskId)
+    metaTask <- new("MetaTask",
+                    taskId=taskId,
+                    name=name,
+                    description=desc,
+                    taskType=taskType,
                     inputTypes=inputTypes,
-                    outputTypes=outputTypes)
-    logger.debug(paste("Registering task", taskId, "\n"))
-    logger.debug(metaTask)
+                    outputTypes=outputTypes,
+                    nproc=nproc, resourceTypes=resourceTypes)
+    logger.debug(paste("Registering task", metaTask@taskId, "\n"))
+    logger.debug(metaTask@taskId)
+    #logger.debug(metaTask) # this fails
     #cat("Comand\n")
     #cat(toCmd())
     return(metaTask)

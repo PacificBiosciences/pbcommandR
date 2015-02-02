@@ -1,10 +1,15 @@
 source("pbsmrtpipe.R")
 source("pbreportsModel.R")
 
+taskOptions <- list()
+resourceTypes <- list()
+
 # Example Tasks
-myTask <- registerMetaTask(toTaskId("dev_task_01"), TaskTypes@LOCAL,
-                           c(FileTypes$FASTA, FileTypes$GFF),
-                           c(FileTypes$CSV), NULL, 1, c(),
+myTask <- registerMetaTask(toTaskId("dev_task_01"),
+                           TaskTypes@LOCAL,
+                           list(FileTypes$FASTA, FileTypes$GFF),
+                           list(FileTypes$CSV),
+                           taskOptions, 1, resourceTypes,
                            function(inputFiles, outputFiles, taskOptions, nproc, resources) {
                              # this is where my custom function should be defined
                              cat("Running task_01 command\n")
@@ -19,6 +24,6 @@ myTask2Cmd <- function(inputFiles, outputFiles, taskOptions, nproc, resources) {
 }
 
 # non-inline Alternative way of writing a task
-myTask2 <- registerMetaTask(toTaskId("task_02"), TaskTypes$LOCAL, 
-                            c(FileTypes$FASTA), 
-                            c(FileTypes$CSV, FileTypes$REPORT), myTask2Cmd)
+myTask2 <- registerMetaTask(toTaskId("task_02"), TaskTypes@LOCAL, 
+                            list(FileTypes$FASTA), 
+                            list(FileTypes$CSV, FileTypes$REPORT), taskOptions, 1, resourceTypes, myTask2Cmd)
