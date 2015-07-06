@@ -1,2 +1,2 @@
 # pbsmrtpipeR
-R interface for pbsmrtpipe workflow engine
+WIP R interface for pbsmrtpipe workflow engine
