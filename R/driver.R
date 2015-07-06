@@ -46,10 +46,11 @@ main <- function() {
     usageStatement()
   }
   manifestPath <- normalizePath(args[1])
-  driverManifest <- loadManifest(manifestPath)
+  driverManifest <- loadResolvedToolContractFromPath(manifestPath)
   logger.debug(paste(
-    "Loaded task id", driverManifest@taskId, "from manifest", manifestPath
+    "Loaded Resolved tool contract id", driverManifest@task@taskId, "from manifest", manifestPath
   ))
+  # look up Tool in registry
   results <- runExampleToCmd(driverManifest)
   logger.info(results)
   logger.info("exiting main")

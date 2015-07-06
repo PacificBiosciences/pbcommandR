@@ -22,6 +22,7 @@ logger.error <- function(msg) {
   .log("ERROR", msg)
 }
 
+
 setClass(
   "FileType", representation(
     fileTypeId = "character",
@@ -30,18 +31,21 @@ setClass(
     mimeType = "character"
   )
 )
-# Haw to define custom types
+
+#' Tool Contract
+#' @export
 setClass(
-  "MetaTask", representation(
+  "ToolContractTask", representation(
     taskId = "character",
     taskType = "character",
-    inputTypes = "list",
-    outputTypes = "list",
-    taskOptions = "list",
+    inputTypes = "vector",
+    outputTypes = "vector",
+    taskOptions = "hash",
     nproc = "numeric",
-    resourceTypes = "list",
+    resourceTypes = "vector",
     name = "character",
-    description = "character"
+    description = "character",
+    version = "character"
   )
 )
 
@@ -59,6 +63,38 @@ setClass(
 setClass("TaskTypes", representation(LOCAL = "character", DISTRIBUTED =
                                        "character"))
 
+#' Tool Driver
+#' has the driver exe and env (to be added)
+#' @export
+setClass("ToolDriver", representation(exe = "character"))
+
+#' Tool Contract
+#' @export
+setClass(
+  "ToolContract", representation(task = "ToolContractTask",
+                                 driver = "ToolDriver")
+)
+
+#' Resolved Tool Contract Task
+#' @export
+setClass(
+  "ResolvedToolContractTask", representation(
+    taskId = "character",
+    taskType = "character", # FIXME
+    inputFiles = "vector",
+    outputFiles = "vector",
+    taskOptions = "hash",
+    nproc = "numeric",
+    resources = "vector"
+  )
+)
+
+#' Resolved Tool Contract
+#' @export
+setClass(
+  "ResolvedToolContract", representation(task = "ResolvedToolContractTask",
+                                         driver = "ToolDriver")
+)
 
 .toId <-
   function(prefix, s) {
@@ -79,12 +115,15 @@ toTaskId <- function(s) {
   return(.toId("tasks", s))
 }
 
+#' PacBio Defined task types
 #' @export
 TaskTypes <-
-  new("TaskTypes", LOCAL = "pbsmrtpipe.task_types.local", DISTRIBUTED = "pbsmrtpipe.task_types.distributed")
+  new("TaskTypes",
+      LOCAL = "pbsmrtpipe.constants.local_task",
+      DISTRIBUTED = "pbsmrtpipe.task_types.distributed_task")
 
 .toFileTypes <- function() {
-  # these are ported from pbsmrtpipe
+  # these are ported from pbsystem file types
   toF <- function(idx, baseName, fileExt, mimeType) {
     f <-
       new(
@@ -98,15 +137,17 @@ TaskTypes <-
       "FileType", fileTypeId = toFileTypeId("fasta"), baseName = "file", fileExt =
         "fasta", mimeType = "text/plain"
     )
-  fasta <- toF("fasta", "file", "fasta", "text/plain")
-  fastq <- toF("fastq", "file", "fastq", "text/plain")
-  gff <- toF("gff", "file", "gff", "text/plain")
-  pbrpt <- toF("report", "file.report", "json", "application/json")
+  fasta <- toF("Fasta", "file", "fasta", "text/plain")
+  fastq <- toF("Fastq", "file", "fastq", "text/plain")
+  gff <- toF("Gff", "file", "gff", "text/plain")
+  pbrpt <-
+    toF("JsonReport", "file.report", "json", "application/json")
   return(c(
     FASTA = fasta, FASTQ = fastq, GFF = gff, REPORT = pbrpt
   ))
 }
 
+#' Registry for all the PacBio defined file types
 #' @export
 FileTypes <- .toFileTypes()
 
@@ -117,6 +158,9 @@ FileTypes <- .toFileTypes()
   return(symbolTypes)
 }
 
+#' Symbol types used in Tool Contract and Resolved Tool Contracts
+#'
+#' max NPROC
 #' @export
 SymbolTypes <- .toSymbolTypes()
 
@@ -126,6 +170,9 @@ SymbolTypes <- .toSymbolTypes()
   return(resourceTypes)
 }
 
+#' Symbol types used in Tool Contract and Resolved Tool Contracts
+#'
+#' These are log, tmp files, and dirs.
 #' @export
 ResourceTypes <- .toResourceTypes()
 
@@ -154,7 +201,7 @@ ResourceTypes <- .toResourceTypes()
   return(funcs)
 }
 
-# Global Regsitry
+# Global Registry for all R analysis tasks
 #' @export
 registry <- .registerTaskFunc()
 
@@ -176,7 +223,7 @@ toTaskOption <-
 #' @param resources the list of Resource types
 #' @return A metaTask instance
 #' @export
-registerMetaTask <-
+registerToolContract <-
   function(taskId, taskType, inputTypes, outputTypes, taskOptions, nproc, resourceTypes, toCmd) {
     desc <- "Task Description"
     name <- paste("MetaTask", taskId)
@@ -199,6 +246,8 @@ registerMetaTask <-
     return(metaTask)
   }
 
+#' Run a R task
+#' @export
 runTask <-
   function(taskId, inputFiles, outputFiles, nproc, resources) {
     # grab task from the registry by id and run the toCmd func
@@ -206,49 +255,79 @@ runTask <-
     return(0)
   }
 
-#' @export
-setClass(
-  "DriverManifest", representation(
-    taskId = "character",
-    inputFiles = "character",
-    outputFiles = "character",
-    taskOptions = "hash",
-    nproc = "numeric",
-    resources = "character"
-  )
-)
 
-
+#' General func to load JSON from a file
 #' @export
-loadManifestFromPath <- function(path) {
-  logger.info(paste("Loading manifest from", path))
+loadJsonFromFile <- function(path) {
+  logger.info(paste("Loading tool contract from", path))
   if (file.exists(path)) {
     s <- readChar(path, file.info(path)$size)
     d <- fromJSON(s)
     return(d)
   } else {
-    m <- paste("Unable to find manifest file", "'", path, "'")
+    m <- paste("Unable to find json file", "'", path, "'")
     logger.info(msg, "ERROR")
     stop(m)
   }
 }
 
-manifestToObject <- function(d) {
-  taskId <- d$task$task_id
-  inputFiles <- d$task$input_files
-  outputFiles <- d$task$output_files
-  driverManifest <-
+#' convert the json to ToolContract instance
+dToToolContract <- function(d) {
+  tc = d$tool_contract
+  taskId <- tc$tool_contract_id
+  inputFiles <- tc$input_types
+  outputFiles <- tc$output_types
+  nproc <- tc$nproc
+  toolContractTask <-
     new(
-      "DriverManifest", taskId = taskId, inputFiles = inputFiles, outputFiles =
-        outputFiles, nproc = 1
+      "ToolContractTask",
+      name = tc$name,
+      description = tc$description,
+      taskId = taskId,
+      inputTypes = inputFiles,
+      outputTypes = outputFiles,
+      nproc = nproc
     )
-  return(driverManifest)
+  driver <- new("ToolDriver", exe=d$driver$exe)
+  toolContract <- new("ToolContract", task=toolContractTask, driver=driver)
+  return(toolContract)
 }
 
-loadManifest <- function(path) {
-  return(manifestToObject(loadManifestFromPath(path)))
+#' @export
+loadToolContractFromPath <- function(path) {
+  return(dToToolContract(loadJsonFromFile(path)))
 }
 
-writeManifest <- function(metaTask, jsonPath) {
-  logger.debug(paste("Writing static manifest", metaTask@taskId, "to", jsonPath))
+writeToolContract <- function(metaTask, jsonPath) {
+  logger.debug(paste("Writing tool contract", metaTask@taskId, "to", jsonPath))
+}
+
+#' Convert a dict to a Resolved Task Contract
+dictToResolvedToolContract <- function(d) {
+  t <- d$tool_contract
+  taskId <- t$tool_contract_id
+  inputFiles <- t$input_files
+  outputFiles <- t$output_files
+  nproc <- t$nproc
+  taskType <- t$tool_type
+  taskOptions <- hash()
+  resources <- c("/path/to/log")
+  resolvedToolContractTask <-
+    new(
+      "ResolvedToolContractTask",
+      taskId = taskId,
+      taskType = taskType,
+      inputFiles = inputFiles,
+      outputFiles = outputFiles,
+      taskOptions = taskOptions,
+      nproc = nproc,
+      resources = resources
+    )
+  driver <- new("ToolDriver", exe=d$driver$exe)
+  new("ResolvedToolContract", task = resolvedToolContractTask, driver = driver)
+}
+
+loadResolvedToolContractFromPath <- function(path) {
+  logger.info(paste("Loading resolved tool contract from ", path))
+  return(dictToResolvedToolContract(loadJsonFromFile(path)))
 }
