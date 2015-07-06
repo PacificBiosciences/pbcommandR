@@ -10,3 +10,10 @@ Installing
 > library(devtools)
 > install_githhub("mpkocher/pbsmrtpipeR")
 ```
+
+Testing
+
+```r
+> library(testthat)
+> test()
+```
