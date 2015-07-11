@@ -26,3 +26,20 @@
 #   list(FileTypes$FASTA),
 #   list(FileTypes$CSV, FileTypes$REPORT), taskOptions, 1, resourceTypes, myTask2Cmd
 # )
+
+#' Example Task for testing
+#' inputs = [FileTypes.Fasta]
+#' outputs = [FileTypes.Fasta]
+exampleTask01 <- function(pathToFasta, filteredFasta, minSequenceLength) {
+  logger.info(paste("Writing filtered fasta to ", filteredFasta))
+}
+
+#' Example Task for Testing with emitting a report
+#'
+#' inputs = [FileTypes.Fasta]
+#' outputs = [FileTypes.Report]
+#'
+exampleTask02 <- function(pathToFasta, report) {
+  logger.info(paste("Writing report of fasta file ", pathToFasta))
+  # Generate a report
+}

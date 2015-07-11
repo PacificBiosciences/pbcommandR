@@ -40,20 +40,28 @@ usageStatement <- function() {
   stop(m)
 }
 
-main <- function() {
+#' Central Commandline Driver interface
+#' Tools should use this interface to
+#' @export
+runDriver <- function(args_, toolContractRegistry_) {
   logger.info("Starting main")
-  if (length(args) != 1) {
+  if (length(args_) != 1) {
     usageStatement()
   }
-  manifestPath <- normalizePath(args[1])
-  driverManifest <- loadResolvedToolContractFromPath(manifestPath)
+  logger.info(paste("Args", args_))
+  # this should all be wrapped in a tryCatch
+  manifestPath <- normalizePath(args_[1])
+  rtc <- loadResolvedToolContractFromPath(manifestPath)
   logger.debug(paste(
-    "Loaded Resolved tool contract id", driverManifest@task@taskId, "from manifest", manifestPath
+    "Loaded Resolved tool contract id", rtc@task@taskId, "from ", manifestPath
   ))
+
   # look up Tool in registry
-  results <- runExampleToCmd(driverManifest)
+  results <- toolContractRegistry_(rtc)
+  # run task func
+
   logger.info(results)
   logger.info("exiting main")
   return(0);
+
 }
-#main()

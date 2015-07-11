@@ -1,27 +1,8 @@
 library(methods)
 library(hash)
+library(logging)
 
 fileNamespace <- "pbsmrtpipeR"
-
-# Package level logging
-.log <- function(level, msg) {
-  cat(paste("[", level, "] ", msg, "\n", sep = ""))
-}
-
-logger.info <- function(msg) {
-  .log("INFO", msg)
-}
-# FIXME. Use partial application
-logger.debug <- function(msg) {
-  .log("DEBUG", msg)
-}
-logger.warn <- function(msg) {
-  .log("WARN", msg)
-}
-logger.error <- function(msg) {
-  .log("ERROR", msg)
-}
-
 
 setClass(
   "FileType", representation(
@@ -95,6 +76,14 @@ setClass(
   "ResolvedToolContract", representation(task = "ResolvedToolContractTask",
                                          driver = "ToolDriver")
 )
+
+#' Registered Tool Contract
+#' @export
+setClass("RegisteredToolContract",
+         representation(
+           toolContract = "ToolContract",
+           toCmd = "function")
+         )
 
 .toId <-
   function(prefix, s) {
@@ -176,12 +165,13 @@ SymbolTypes <- .toSymbolTypes()
 #' @export
 ResourceTypes <- .toResourceTypes()
 
+# Utils to Register a Tool Contract
 .registerTaskFunc <- function() {
   # dict of all registered metatasks
   xRegistry <- hash()
 
   registerTask <- function(metaTask) {
-    logger.debug(paste("Registering task", metaTask@taskId))
+    logdebug(paste("Registering task", metaTask@taskId))
     xRegistry[metaTask@taskId] <- metaTask
     return(metaTask)
   }
@@ -190,13 +180,14 @@ ResourceTypes <- .toResourceTypes()
     return(values(xRegistry))
   }
   getRegisteredTaskById <- function(taskId) {
-    logger.debug(paste("Getting task ", taskId, "\n"))
+    logdebug(paste("Getting task ", taskId, "\n"))
     return(xRegistry[[taskId]])
   }
   funcs <-
     c(
-      "getRegisteredTasks" = getRegisteredTasks, "getRegisteredById" = getRegisteredTaskById, "registerTask" =
-        registerTask
+      "getRegisteredTasks" = getRegisteredTasks,
+      "getRegisteredById" = getRegisteredTaskById,
+      "registerTask" = registerTask
     )
   return(funcs)
 }
@@ -224,26 +215,13 @@ toTaskOption <-
 #' @return A metaTask instance
 #' @export
 registerToolContract <-
-  function(taskId, taskType, inputTypes, outputTypes, taskOptions, nproc, resourceTypes, toCmd) {
-    desc <- "Task Description"
-    name <- paste("MetaTask", taskId)
-    metaTask <- new(
-      "MetaTask",
-      taskId = taskId,
-      name = name,
-      description = desc,
-      taskType = taskType,
-      inputTypes = inputTypes,
-      outputTypes = outputTypes,
-      nproc = nproc, resourceTypes = resourceTypes
-    )
-    logger.debug(paste("Registering task", metaTask@taskId, "\n"))
-    logger.debug(metaTask@taskId)
-    #logger.debug(metaTask) # this fails
-    #cat("Comand\n")
-    #cat(toCmd())
-    registry$registerTask(metaTask)
-    return(metaTask)
+  function(toolContract, toCmd) {
+
+    registeredToolContract = new("RegisteredToolContract", toolContract = toolContract, toCmd = toCmd)
+    logdebug(paste("Registering task", toolContract@task@taskId, "\n"))
+    logdebug(toolContract@taskId)
+    registry$registerTask(registeredToolContract)
+    return(toolContract)
   }
 
 #' Run a R task
@@ -259,14 +237,14 @@ runTask <-
 #' General func to load JSON from a file
 #' @export
 loadJsonFromFile <- function(path) {
-  logger.info(paste("Loading tool contract from", path))
+  loginfo(paste("Loading tool contract from", path))
   if (file.exists(path)) {
     s <- readChar(path, file.info(path)$size)
     d <- fromJSON(s)
     return(d)
   } else {
     m <- paste("Unable to find json file", "'", path, "'")
-    logger.info(msg, "ERROR")
+    loginfo(msg, "ERROR")
     stop(m)
   }
 }
@@ -293,13 +271,17 @@ dToToolContract <- function(d) {
   return(toolContract)
 }
 
+#' Load Tool Contract from Path
 #' @export
 loadToolContractFromPath <- function(path) {
   return(dToToolContract(loadJsonFromFile(path)))
 }
 
-writeToolContract <- function(metaTask, jsonPath) {
-  logger.debug(paste("Writing tool contract", metaTask@taskId, "to", jsonPath))
+#' Write Tool Contract to JSON file
+#' @param toolContract Tool Contract
+#' @export
+writeToolContract <- function(toolContract, jsonPath) {
+  logdebug(paste("Writing tool contract", toolContract@task@taskId, "to", jsonPath))
 }
 
 #' Convert a dict to a Resolved Task Contract
@@ -327,6 +309,8 @@ dictToResolvedToolContract <- function(d) {
   new("ResolvedToolContract", task = resolvedToolContractTask, driver = driver)
 }
 
+#' Load a Resolved Tool contract from json file
+#' @export
 loadResolvedToolContractFromPath <- function(path) {
   logger.info(paste("Loading resolved tool contract from ", path))
   return(dictToResolvedToolContract(loadJsonFromFile(path)))

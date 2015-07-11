@@ -10,9 +10,9 @@ spec <- matrix(
   ), byrow = TRUE, ncol = 4
 );
 
-opt = getopt(spec);
-
-runMain <- function(opts) {
+runMain <- function() {
+  #
+  opt = getopt(spec);
   # if help was asked for print a friendly message
   # and exit with a non-zero error code
   if (!is.null(opt$help)) {
