@@ -40,7 +40,7 @@ registerTool(r, "helloWorld2", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1, F
 # Emit Registered Tool Contracts to JSON      -> Rscript /path/to/exampleDriver.R emit-tc /path/to/output-dir 
 # then make Tool Contracts JSON accessible to pbsmrtpipe
 # Builds a commandline wrapper that will call your driver
-q(status=mainRegisteryMainArgs(myToolRegistryBuilder))
+q(status=mainRegisteryMainArgs(r))
 ```
 
 Now the tool id "pbcommandR.tasks.helloWorld" is now usable in a pbsmrtpipe pipeline template.
