@@ -8,40 +8,9 @@ library(logging)
 library(jsonlite, quietly = TRUE)
 library(hash, quietly = TRUE)
 
-PB_TOOL_NAMESPACE <- "pbcommandR"
-
-# This can be done here or in a separate file
-# There can be a single registry for all tasks, or
-# subparser-eseque model to group tasks
-
-# Define the RTC -> main funcs
-runFilterFastaMain = function(rtc) {
-  minLength <- 25
-  return(examplefilterFastaTask(rtc@task@inputFiles[1], rtc@task@outputFiles[1], minLength))
-}
-
-runFastaReportMain <- function(rtc) {
-  return(examplefastaReport(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
-}
-
-runHelloWorld <- function(rtc) {
-  fileConn <- file(rtc@task@outputFiles[1])
-  writeLines(c("Hello World. Input File ", rtc@task@inputFiles[1]))
-  close(fileConn)
-  return(0)
-}
-
-myToolRegistryBuilder <- function() {
-  r <- registryBuilder(PB_TOOL_NAMESPACE, "Rscript /path/to/myExample.R run-rtc ")
-  # could be more clever and use partial application for registry, but this is fine
-  registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 1, FALSE, runFilterFastaMain)
-  registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 1, FALSE, runFastaReportMain)
-  registerTool(r, "helloWorld", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1, FALSE, runHelloWorld)
-  return(r)
-}
-
-# Actually Runnable now via
-# Run -> Rscript /path/to/exampleDriver.R run-rtc /path/to/rtc.json
-# Emit TC -> Rscript /path/to/exampleDriver.R emit-tc /path/to/my-tool-contract.json # then make accessible to pbsmrtpipe
-q(status=mainRegisteryMainArgs(myToolRegistryBuilder))
+# Run from a Resolved Tool Contract JSON file -> Rscript /path/to/exampleDriver.R run-rtc /path/to/rtc.json
+# Emit Registered Tool Contracts to JSON      -> Rscript /path/to/exampleDriver.R emit-tc /path/to/output-dir
+# then make Tool Contracts JSON accessible to pbsmrtpipe
+# Builds a commandline wrapper that will call your driver
+q(status=mainRegisteryMainArgs(exampleToolRegistryBuilder()))
 

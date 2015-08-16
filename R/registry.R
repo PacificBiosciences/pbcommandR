@@ -4,6 +4,9 @@ library(logging)
 library(methods)
 
 #' @export
+PB_TOOL_NAMESPACE <- "pbcommandR"
+
+#' @export
 setClass(
   "Registry", representation(
     toolNamespace = "character",
@@ -21,8 +24,8 @@ registerTool <- function(registeryObj, idx, version, inputTypes, outputTypes, np
   # pbcommand form
   taskId <- paste(registeryObj@toolNamespace, 'tasks', idx, sep = '.')
 
-  name <- paste("Task Name ", idx)
-  desc <- paste("Description for ", idx)
+  name <- paste("Task Name ", taskId)
+  desc <- paste("Description for ", taskId)
   taskOptions <- hash()
   resources <- c(ResourceTypes$TMP_DIR)
   taskType <- "stuff"
@@ -46,9 +49,10 @@ registerTool <- function(registeryObj, idx, version, inputTypes, outputTypes, np
   driver <- new("ToolDriver", exe=registeryObj@driverBase)
   tc <- new("ToolContract", task=tcTask, driver=driver)
 
-  loginfo(paste("Registering tool contract ", idx))
+  loginfo(paste("Registering tool contract ", taskId))
   registeryObj@toolContracts[taskId] <- tc
-  registeryObj@rtcRunners[taskId] <- rtcRunnerFunc
+  # FIXME. I don't understand [[]] vs [] with funcs in R
+  registeryObj@rtcRunners[[taskId]] <- rtcRunnerFunc
   return(tc)
 }
 
@@ -74,7 +78,8 @@ registryRunner <- function(registry, rtcPath) {
   # load RTC from file
   rtc <- loadResolvedToolContractFromPath(rtcPath)
   tid <- rtc@task@taskId
-  func <- registery@rtcRunners[tid]
+  hx <- as.list.hash(registry@rtcRunners[[tid]])
+  func <- hx[[tid]]
   loginfo(paste("successfully loaded rtc runner func from ", tid))
   exitCode <- func(rtc)
   loginfo("Running RTC ")
@@ -83,9 +88,10 @@ registryRunner <- function(registry, rtcPath) {
 
 # Writes all Tool Contracts to Output dir
 #' @export
-emitRegistryToolContractsTo <- function(register, outputDir) {
-  loginfo(c("Emitting all Registry tool contracts to ", outputDir))
-  return(0)
+emitRegistryToolContractsTo <- function(registry, outputDir) {
+  #loginfo(c("Emitting all Registry tool contracts to ", outputDir))
+  loginfo("NOT IMPLEMENTED YET")
+  return(-1)
 }
 
 

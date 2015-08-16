@@ -4,7 +4,7 @@
 \name{TaskTypes}
 \alias{TaskTypes}
 \title{PacBio Defined task types}
-\format{\preformatted{Formal class 'TaskTypes' [package "pbsmrtpipeR"] with 2 slots
+\format{\preformatted{Formal class 'TaskTypes' [package "pbcommandR"] with 2 slots
   ..@ LOCAL      : chr "pbsmrtpipe.constants.local_task"
   ..@ DISTRIBUTED: chr "pbsmrtpipe.task_types.distributed_task"
 }}

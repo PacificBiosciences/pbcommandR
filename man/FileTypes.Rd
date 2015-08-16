@@ -5,27 +5,27 @@
 \alias{FileTypes}
 \title{Registry for all the PacBio defined file types}
 \format{\preformatted{List of 5
- $ FASTA :Formal class 'FileType' [package "pbsmrtpipeR"] with 4 slots
+ $ FASTA :Formal class 'FileType' [package "pbcommandR"] with 4 slots
   .. ..@ fileTypeId: chr "pbsmrtpipe files Fasta"
   .. ..@ baseName  : chr "file"
   .. ..@ fileExt   : chr "fasta"
   .. ..@ mimeType  : chr "text/plain"
- $ FASTQ :Formal class 'FileType' [package "pbsmrtpipeR"] with 4 slots
+ $ FASTQ :Formal class 'FileType' [package "pbcommandR"] with 4 slots
   .. ..@ fileTypeId: chr "pbsmrtpipe files Fastq"
   .. ..@ baseName  : chr "file"
   .. ..@ fileExt   : chr "fastq"
   .. ..@ mimeType  : chr "text/plain"
- $ GFF   :Formal class 'FileType' [package "pbsmrtpipeR"] with 4 slots
+ $ GFF   :Formal class 'FileType' [package "pbcommandR"] with 4 slots
   .. ..@ fileTypeId: chr "pbsmrtpipe files Gff"
   .. ..@ baseName  : chr "file"
   .. ..@ fileExt   : chr "gff"
   .. ..@ mimeType  : chr "text/plain"
- $ REPORT:Formal class 'FileType' [package "pbsmrtpipeR"] with 4 slots
+ $ REPORT:Formal class 'FileType' [package "pbcommandR"] with 4 slots
   .. ..@ fileTypeId: chr "pbsmrtpipe files JsonReport"
   .. ..@ baseName  : chr "file.report"
   .. ..@ fileExt   : chr "json"
   .. ..@ mimeType  : chr "application/json"
- $ TXT   :Formal class 'FileType' [package "pbsmrtpipeR"] with 4 slots
+ $ TXT   :Formal class 'FileType' [package "pbcommandR"] with 4 slots
   .. ..@ fileTypeId: chr "pbsmrtpipe files Txt"
   .. ..@ baseName  : chr "file"
   .. ..@ fileExt   : chr "txt"

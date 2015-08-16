@@ -30,21 +30,16 @@ getParser <- function() {
 
 # Main function to run CLI entry point
 #' @export
-mainRegisteryMain <- function(registy, mode, rtcOrOutputDir) {
+mainRegisteryMain <- function(registry, mode, rtcOrOutputDir) {
   exitCode <- -1
 
   if (mode == 'run-rtc') {
     loginfo(paste("attempting to load RTC from ", rtcOrOutputDir))
     rtcPath <- normalizePath(rtcOrOutputDir)
-    rtc <- loadResolvedToolContractFromPath(rtcPath)
-    loginfo(paste("successfully loaded resolved to contract from ", rtcPath))
-    loginfo(paste("looking for tool contract id ", rtc@task@taskId))
-    hx = registy@rtcRunners[rtc@task@taskId]
-    func <- hx$rtc@task@taskId
-    exitCode = func(rtc)
+    exitCode <- registryRunner(registry, rtcPath)
   } else if (mode == 'emit-tc') {
     loginfo(paste("Emitting tool contracts to dir ", rtcOrOutputDir))
-    exitCode = 0
+    exitCode <- emitRegistryToolContractsTo(registry, rtcOrOutputDir)
   } else {
     cat(paste("Unsupported mode ", mode, " Suppored modes 'emit-tc', and 'run-rtc'"))
     exitCode = -1
