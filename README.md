@@ -39,7 +39,7 @@ runHelloWorld <- function(inputTxt, outputTxt) {
 
 # Wrapper to convert Resolved Tool Contract to your library func
 runHelloWorldRtc <- function(rtc) {
-  return(runHellWorld(rtc@task@outputFiles[1],rtc@task@inputFiles[1])) 
+  return(runHellWorld(rtc@task@inputFiles[1],rtc@task@outFiles[1])) 
 }
 
 # The driver is what pbsmrtpipe will call with the path to resolved tool contract JSON file
