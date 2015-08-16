@@ -2,7 +2,13 @@
 
 [![Build Status](https://travis-ci.org/mpkocher/pbsmrtpipeR.svg?branch=master)](https://travis-ci.org/mpkocher/pbsmrtpipeR)
 
-WIP R interface for pbsmrtpipe workflow engine
+WIP R interface for PacBio Tool Contract and Resolved Tool Contract that can be used in pbsmrtpipe workflow engine.
+
+For more details:
+
+[Docs and Motivation](http://pbcommand.readthedocs.org/en/latest/)
+
+[Python API](https://github.com/PacificBiosciences/pbcommand)
 
 Installing
 
