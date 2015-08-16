@@ -1,4 +1,5 @@
 # IO parsing for TCs and RTCs
+library(jsonlite)
 
 #' General func to load JSON from a file
 #' @export
@@ -52,12 +53,13 @@ writeToolContract <- function(toolContract, jsonPath) {
 
 #' Convert a dict to a Resolved Task Contract
 dictToResolvedToolContract <- function(d) {
-  t <- d$tool_contract
+
+  t <- d$resolved_tool_contract
   taskId <- t$tool_contract_id
   inputFiles <- t$input_files
   outputFiles <- t$output_files
   nproc <- t$nproc
-  taskType <- t$tool_type
+  taskType <- "NA"
   taskOptions <- hash()
   resources <- c("/path/to/log")
   resolvedToolContractTask <-

@@ -28,25 +28,19 @@ getParser <- function() {
   return(p)
 }
 
+# Main function to run CLI entry point
 #' @export
-mainRegisteryMain <- function(registy) {
-  basicConfig(level=10)
-  loginfo(paste("Running with args", args))
-  cat("Starting main\n")
-  cat(args)
-
-  p <- getParser()
-  # Parse the command line arguments
-  argv <- parse_args(p)
-  mode <- argv$mode
-  rtcOrOutputDir <- argv$rtc_or_output_dir
+mainRegisteryMain <- function(registy, mode, rtcOrOutputDir) {
   exitCode <- -1
 
   if (mode == 'run-rtc') {
     loginfo(paste("attempting to load RTC from ", rtcOrOutputDir))
     rtcPath <- normalizePath(rtcOrOutputDir)
     rtc <- loadResolvedToolContractFromPath(rtcPath)
-    exitCode = 0
+    loginfo(paste("successfully loaded resolved to contract from ", rtcPath))
+    loginfo(paste("looking for tool contract id ", rtc@task@taskId))
+    func = registy@rtcRunners[rtc@task@taskId]
+    exitCode = func(rtc)
   } else if (mode == 'emit-tc') {
     loginfo(paste("Emitting tool contracts to dir ", rtcOrOutputDir))
     exitCode = 0
@@ -59,4 +53,19 @@ mainRegisteryMain <- function(registy) {
   runTime <- 1
   cat(paste("Exiting main with exit code ", exitCode, "in ", runTime, " secs\n"))
   return(exitCode)
+}
+
+#' @export
+mainRegisteryMainArgs <- function(registry) {
+  basicConfig(level=10)
+  loginfo(paste("Running with args", args))
+  cat("Starting main\n")
+  cat(args)
+
+  p <- getParser()
+  # Parse the command line arguments
+  argv <- parse_args(p)
+  mode <- argv$mode
+  rtcOrOutputDir <- argv$rtc_or_output_dir
+  return(mainRegisteryMain(registry, mode, rtcOrOutputDir))
 }

@@ -26,6 +26,8 @@ test_that("Registery Builder", {
   r <- registryBuilder("tool", "namespace")
   inputTypes <- c(FileTypes$FASTA, FileTypes$FASTA)
   outputTypes <- c(FileTypes$REPORT)
-  tc <- registerTool(r, "my-id", "0.1.0", inputTypes, outputTypes, 1, FALSE, exampleFunc)
+  tc <- registerTool(r, "my_id", "0.1.0", inputTypes, outputTypes, 1, FALSE, exampleFunc)
+  tid = paste("tool", "tasks", "my_d", sep = '.')
+  #rtcRunnerFunc <- r@rtcRunners[tid]
   expect_that(10, equals(10))
 })

@@ -19,7 +19,7 @@ registerTool <- function(registeryObj, idx, version, inputTypes, outputTypes, np
 
   # FIXME isDistributed isn't used. TaskType needs to be updated to the new
   # pbcommand form
-  taskId <- paste(c(registeryObj@toolNamespace, 'tasks', idx), sep = '.')
+  taskId <- paste(registeryObj@toolNamespace, 'tasks', idx, sep = '.')
 
   name <- paste("Task Name ", idx)
   desc <- paste("Description for ", idx)
@@ -84,14 +84,6 @@ registryRunner <- function(registry, rtcPath) {
 #' @export
 emitRegistryToolContractsTo <- function(register, outputDir) {
   loginfo(c("Emitting all Registry tool contracts to ", outputDir))
-  return(0)
-}
-
-#' @export
-cliRunner <- function(registry, argsv) {
-  basicConfig(level=10)
-  loginfo(paste("Running with args", argsv))
-  #
   return(0)
 }
 

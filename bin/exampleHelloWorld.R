@@ -5,6 +5,10 @@
 library(pbsmrtpipeR)
 library(argparser)
 library(logging)
+library(jsonlite, quietly = TRUE)
+library(hash, quietly = TRUE)
+
+PB_TOOL_NAMESPACE <- "pbcommandR"
 
 # This can be done here or in a separate file
 # There can be a single registry for all tasks, or
@@ -13,16 +17,16 @@ library(logging)
 # Define the RTC -> main funcs
 runFilterFastaMain = function(rtc) {
   minLength <- 25
-  return(examplefilterFastaTask(rtc.task.inputFiles[0], rtc.task.outputFiles[0], minLength))
+  return(examplefilterFastaTask(rtc.task.inputFiles[1], rtc.task.outputFiles[1], minLength))
 }
 
 runFastaReportMain <- function(rtc) {
-  return(examplefastaReport(rtc.task.inputFiles[0], rtc.task.outputFiles[0]))
+  return(examplefastaReport(rtc.task.inputFiles[1], rtc.task.outputFiles[1]))
 }
 
 runHelloWorld <- function(rtc) {
-  fileConn <- file(rtc.task.outputFiles[0])
-  writeLines(c("Hello World. Input File ", rtc.task.inputFiles[0]))
+  fileConn <- file(rtc.task.outputFiles[1])
+  writeLines(c("Hello World. Input File ", rtc.task.inputFiles[1]))
   close(fileConn)
   return(0)
 }
@@ -32,12 +36,12 @@ myToolRegistryBuilder <- function() {
   # could be more clever and use partial application for registry, but this is fine
   registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 1, FALSE, runFilterFastaMain)
   registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 1, FALSE, runFastaReportMain)
-  registerTool(r, "hello_world", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1, FALSE, runHelloWorld)
+  registerTool(r, "helloWorld", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1, FALSE, runHelloWorld)
   return(r)
 }
 
 # Actually Runnable now via
 # Run -> Rscript /path/to/exampleDriver.R run-rtc /path/to/rtc.json
 # Emit TC -> Rscript /path/to/exampleDriver.R emit-tc /path/to/my-tool-contract.json # then make accessible to pbsmrtpipe
-q(status=mainRegisteryMain(myToolRegistryBuilder))
+q(status=mainRegisteryMainArgs(myToolRegistryBuilder))
 
