@@ -73,8 +73,9 @@ registryRunner <- function(registry, rtcPath) {
 
   # load RTC from file
   rtc <- loadResolvedToolContractFromPath(rtcPath)
-  func <- registery@rtcRunners[rtc.taskId]
-  loginfo(paste("successfully loaded rtc runner func from ", rtc.taskId))
+  tid <- rtc@task@taskId
+  func <- registery@rtcRunners[tid]
+  loginfo(paste("successfully loaded rtc runner func from ", tid))
   exitCode <- func(rtc)
   loginfo("Running RTC ")
   return(0)

@@ -3,8 +3,8 @@ library(pbsmrtpipeR)
 context("Sanity tests for ToolContract Registry Building")
 
 runHelloWorld <- function(rtc) {
-  fileConn <- file(rtc.task.outputFiles[0])
-  writeLines(c("Hello World. Input File ", rtc.task.inputFiles[0]))
+  fileConn <- file(rtc@task@outputFiles[1])
+  writeLines(c("Hello World. Input File ", rtc@task@inputFiles[1]))
   close(fileConn)
   return(0)
 }
@@ -27,7 +27,8 @@ test_that("Registery Builder", {
   inputTypes <- c(FileTypes$FASTA, FileTypes$FASTA)
   outputTypes <- c(FileTypes$REPORT)
   tc <- registerTool(r, "my_id", "0.1.0", inputTypes, outputTypes, 1, FALSE, exampleFunc)
-  tid = paste("tool", "tasks", "my_d", sep = '.')
-  #rtcRunnerFunc <- r@rtcRunners[tid]
+  tid = paste("tool", "tasks", "my_id", sep = '.')
+  hx <- r@rtcRunners[tid]
+  func = hx$tid
   expect_that(10, equals(10))
 })

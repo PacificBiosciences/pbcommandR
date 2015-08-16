@@ -39,7 +39,8 @@ mainRegisteryMain <- function(registy, mode, rtcOrOutputDir) {
     rtc <- loadResolvedToolContractFromPath(rtcPath)
     loginfo(paste("successfully loaded resolved to contract from ", rtcPath))
     loginfo(paste("looking for tool contract id ", rtc@task@taskId))
-    func = registy@rtcRunners[rtc@task@taskId]
+    hx = registy@rtcRunners[rtc@task@taskId]
+    func <- hx$rtc@task@taskId
     exitCode = func(rtc)
   } else if (mode == 'emit-tc') {
     loginfo(paste("Emitting tool contracts to dir ", rtcOrOutputDir))

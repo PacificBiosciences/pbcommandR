@@ -31,8 +31,8 @@ library(pbsmrtpipeR)
 
 # Import your function from library code
 runHelloWorld <- function(rtc) {
-  fileConn <- file(rtc.task.outputFiles[1])
-  writeLines(c("Hello World. Input File ", rtc.task.inputFiles[1]))
+  fileConn <- file(rtc@task@outputFiles[1])
+  writeLines(c("Hello World. Input File ", rtc@task@inputFiles[1]))
   close(fileConn)
   return(0)
 }

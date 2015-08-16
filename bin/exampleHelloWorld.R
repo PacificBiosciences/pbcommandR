@@ -17,16 +17,16 @@ PB_TOOL_NAMESPACE <- "pbcommandR"
 # Define the RTC -> main funcs
 runFilterFastaMain = function(rtc) {
   minLength <- 25
-  return(examplefilterFastaTask(rtc.task.inputFiles[1], rtc.task.outputFiles[1], minLength))
+  return(examplefilterFastaTask(rtc@task@inputFiles[1], rtc@task@outputFiles[1], minLength))
 }
 
 runFastaReportMain <- function(rtc) {
-  return(examplefastaReport(rtc.task.inputFiles[1], rtc.task.outputFiles[1]))
+  return(examplefastaReport(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
 }
 
 runHelloWorld <- function(rtc) {
-  fileConn <- file(rtc.task.outputFiles[1])
-  writeLines(c("Hello World. Input File ", rtc.task.inputFiles[1]))
+  fileConn <- file(rtc@task@outputFiles[1])
+  writeLines(c("Hello World. Input File ", rtc@task@inputFiles[1]))
   close(fileConn)
   return(0)
 }
