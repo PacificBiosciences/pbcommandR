@@ -13,3 +13,5 @@
 Todo.md
 packrat/lib*/
 packrat/src/*
+
+.DS_Store

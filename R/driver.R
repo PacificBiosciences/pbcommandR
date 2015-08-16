@@ -1,5 +1,6 @@
 library(methods)
 library(jsonlite)
+library(logging)
 library(hash)
 
 args <- commandArgs(TRUE)
@@ -11,57 +12,51 @@ writeMockOutputFile <- function(path) {
   logger.debug(paste("Successfully wrote to", path))
 }
 
-exampleToCmd <-
-  function(inputFiles, outputFiles, taskOptions, nproc, resources) {
-    logger.debug("Running toCmd")
-    logger.debug("Input Files")
-    logger.debug(inputFiles)
-    logger.debug("OutputFiles")
-    logger.debug(outputFiles)
-    logger.debug("Writing mock output files")
-    lapply(outputFiles, writeMockOutputFile)
-    # R uses a 1-based index
-    # these can be accessed via outputFiles[1], outputFiles[2] ...
-    logger.debug("Nproc")
-    logger.debug(nproc)
-    return(0)
-  }
-
-runExampleToCmd <- function(dm) {
-  return(
-    exampleToCmd(
-      dm@inputFiles, dm@outputFiles, dm@taskOptions, dm@nproc, dm@resources
-    )
-  )
-}
-
-usageStatement <- function() {
-  m <- "Error Usage 'driver.R /path/to/driver-manifest.json'"
-  stop(m)
-}
-
-#' Central Commandline Driver interface
-#' Tools should use this interface to
+#' Fundamental argument parser to emit tool contracts and
+#' Run tool contracts
 #' @export
-runDriver <- function(args_, toolContractRegistry_) {
-  logger.info("Starting main")
-  if (length(args_) != 1) {
-    usageStatement()
+getParser <- function() {
+  p <- arg_parser("Round a floating point number")
+
+  # Add command line arguments
+  p <- add_argument(p, "mode",
+                    help="Mode, emit-tc or run-rtc",
+                    type="character")
+  p <- add_argument(p, "rtc_or_output_dir",
+                    help="run-rtc path/to/rtc.json OR emit-tc /path/to/output-dir",
+                    type="character")
+  return(p)
+}
+
+#' @export
+mainRegisteryMain <- function(registy) {
+  basicConfig(level=10)
+  loginfo(paste("Running with args", args))
+  cat("Starting main\n")
+  cat(args)
+
+  p <- getParser()
+  # Parse the command line arguments
+  argv <- parse_args(p)
+  mode <- argv$mode
+  rtcOrOutputDir <- argv$rtc_or_output_dir
+  exitCode <- -1
+
+  if (mode == 'run-rtc') {
+    loginfo(paste("attempting to load RTC from ", rtcOrOutputDir))
+    rtcPath <- normalizePath(rtcOrOutputDir)
+    rtc <- loadResolvedToolContractFromPath(rtcPath)
+    exitCode = 0
+  } else if (mode == 'emit-tc') {
+    loginfo(paste("Emitting tool contracts to dir ", rtcOrOutputDir))
+    exitCode = 0
+  } else {
+    cat(paste("Unsupported mode ", mode, " Suppored modes 'emit-tc', and 'run-rtc'"))
+    exitCode = -1
   }
-  logger.info(paste("Args", args_))
-  # this should all be wrapped in a tryCatch
-  manifestPath <- normalizePath(args_[1])
-  rtc <- loadResolvedToolContractFromPath(manifestPath)
-  logger.debug(paste(
-    "Loaded Resolved tool contract id", rtc@task@taskId, "from ", manifestPath
-  ))
 
-  # look up Tool in registry
-  results <- toolContractRegistry_(rtc)
-  # run task func
-
-  logger.info(results)
-  logger.info("exiting main")
-  return(0);
-
+  # run time in seconds
+  runTime <- 1
+  cat(paste("Exiting main with exit code ", exitCode, "in ", runTime, " secs\n"))
+  return(exitCode)
 }
