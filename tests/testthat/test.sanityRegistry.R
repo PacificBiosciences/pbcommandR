@@ -1,4 +1,4 @@
-library(pbsmrtpipeR)
+library(pbcommandR)
 
 context("Sanity tests for ToolContract Registry Building")
 

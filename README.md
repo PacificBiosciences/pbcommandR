@@ -1,6 +1,6 @@
-# pbsmrtpipeR
+# pbcommandR
 
-[![Build Status](https://travis-ci.org/mpkocher/pbsmrtpipeR.svg?branch=master)](https://travis-ci.org/mpkocher/pbsmrtpipeR)
+[![Build Status](https://travis-ci.org/mpkocher/pbcommandR.svg?branch=master)](https://travis-ci.org/mpkocher/pbcommandR)
 
 WIP R interface for PacBio Tool Contract and Resolved Tool Contract that can be used in pbsmrtpipe workflow engine.
 
@@ -14,7 +14,7 @@ Installing
 
 ```r
 > library(devtools)
-> install_githhub("mpkocher/pbsmrtpipeR")
+> install_githhub("mpkocher/pbcommandR")
 ```
 
 Testing
@@ -27,7 +27,7 @@ Testing
 # Quick start
 
 ```R
-library(pbsmrtpipeR)
+library(pbcommandR)
 
 # Import your function from library code
 runHelloWorld <- function(rtc) {

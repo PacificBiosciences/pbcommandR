@@ -2,7 +2,7 @@
 # Simple Hello World Example
 # Load the example registry from the library code
 
-library(pbsmrtpipeR)
+library(pbcommandR)
 library(argparser)
 library(logging)
 library(jsonlite, quietly = TRUE)

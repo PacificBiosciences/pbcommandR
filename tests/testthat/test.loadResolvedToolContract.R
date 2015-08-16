@@ -1,4 +1,4 @@
-library(pbsmrtpipeR)
+library(pbcommandR)
 
 context("Test for loading a ResolvedTool Contract")
 

@@ -1,9 +1,9 @@
 library(methods)
 library(testthat)
-library(pbsmrtpipeR)
+library(pbcommandR)
 library(jsonlite)
 
-test_package("pbsmrtpipeR")
-test_check("pbsmrtpipeR")
+test_package("pbcommandR")
+test_check("pbcommandR")
 
 #context("Test pbreports Model serializes to JSON")
