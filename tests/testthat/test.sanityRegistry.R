@@ -28,12 +28,6 @@ test_that("Registery Builder", {
   outputTypes <- c(FileTypes$REPORT)
   tc <- registerTool(r, "my_id", "0.1.0", inputTypes, outputTypes, 1, FALSE, exampleFunc)
   tid = paste("pbcommandR", "tasks", "my_id", sep = '.')
-  # FIXME. This shouldn't be that complicated.
-  #hx <- as.list.hash(r@rtcRunners[[tid]])
-  #func <- hx[[tid]]
-  #rtc <- loadResolvedToolContractFromPath("/Users/mkocher/gh_projects/pbcommandR/rtc.json")
-  #loginfo(paste("Loaded RTC with id ", rtc@task@taskId))
-  #exitCode <- func(rtc)
   exitCode <- 0
   expect_that(0, equals(exitCode))
 })
