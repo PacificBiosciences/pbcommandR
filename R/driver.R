@@ -28,7 +28,8 @@ getParser <- function() {
   return(p)
 }
 
-# Main function to run CLI entry point
+# Main function to emit the tool contracts stored in the
+# registry or run a resolved tool contract.
 #' @export
 mainRegisteryMain <- function(registry, mode, rtcOrOutputDir) {
   exitCode <- -1
@@ -38,8 +39,9 @@ mainRegisteryMain <- function(registry, mode, rtcOrOutputDir) {
     rtcPath <- normalizePath(rtcOrOutputDir)
     exitCode <- registryRunner(registry, rtcPath)
   } else if (mode == 'emit-tc') {
-    loginfo(paste("Emitting tool contracts to dir ", rtcOrOutputDir))
-    exitCode <- emitRegistryToolContractsTo(registry, rtcOrOutputDir)
+    outputDir <- normalizePath(rtcOrOutputDir)
+    loginfo(paste("Emitting tool contracts to dir ", outputDir))
+    exitCode <- emitRegistryToolContractsTo(registry, outputDir)
   } else {
     cat(paste("Unsupported mode ", mode, " Suppored modes 'emit-tc', and 'run-rtc'"))
     exitCode = -1
@@ -51,6 +53,7 @@ mainRegisteryMain <- function(registry, mode, rtcOrOutputDir) {
   return(exitCode)
 }
 
+#' CLI entry point. Parses CLI args and calls registery Runner
 #' @export
 mainRegisteryMainArgs <- function(registry) {
   basicConfig(level=10)

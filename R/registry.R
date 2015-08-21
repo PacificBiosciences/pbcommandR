@@ -86,7 +86,7 @@ registryRunner <- function(registry, rtcPath) {
 # Writes all Tool Contracts to Output dir
 #' @export
 emitRegistryToolContractsTo <- function(registry, outputDir) {
-  #loginfo(c("Emitting all Registry tool contracts to ", outputDir))
+  loginfo(c("Emitting all Registry tool contracts to ", outputDir))
   loginfo("NOT IMPLEMENTED YET")
   return(-1)
 }
