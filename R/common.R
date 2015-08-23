@@ -126,7 +126,7 @@ TaskTypes <-
       "FileType", fileTypeId = toFileTypeId("fasta"), baseName = "file", fileExt =
         "fasta", mimeType = "text/plain"
     )
-  txt <- toF("Txt", "file", "txt", "text/plain")
+  txt <- toF("txt", "file", "txt", "text/plain")
   fasta <- toF("Fasta", "file", "fasta", "text/plain")
   fastq <- toF("Fastq", "file", "fastq", "text/plain")
   gff <- toF("Gff", "file", "gff", "text/plain")
