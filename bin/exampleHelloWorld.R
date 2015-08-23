@@ -6,7 +6,6 @@ library(pbcommandR)
 library(argparser)
 library(logging)
 library(jsonlite, quietly = TRUE)
-library(hash, quietly = TRUE)
 
 # Run from a Resolved Tool Contract JSON file -> Rscript /path/to/exampleDriver.R run-rtc /path/to/rtc.json
 # Emit Registered Tool Contracts to JSON      -> Rscript /path/to/exampleDriver.R emit-tc /path/to/output-dir

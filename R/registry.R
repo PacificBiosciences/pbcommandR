@@ -26,7 +26,7 @@ registerTool <- function(registeryObj, idx, version, inputTypes, outputTypes, np
 
   name <- paste("Task Name ", taskId)
   desc <- paste("Description for ", taskId)
-  taskOptions <- hash()
+  taskOptions <- list()
   resources <- c(ResourceTypes$TMP_DIR)
   taskType <- "stuff"
 
@@ -87,8 +87,16 @@ registryRunner <- function(registry, rtcPath) {
 #' @export
 emitRegistryToolContractsTo <- function(registry, outputDir) {
   loginfo(c("Emitting all Registry tool contracts to ", outputDir))
-  loginfo("NOT IMPLEMENTED YET")
-  return(-1)
+  #paste(registry$toolContracts)
+  for (name in names(registry$toolContracts)) {
+    fileName <- paste(name, "tool_contract.json", sep = "_")
+    jsonPath <- file.path(outputDir, fileName)
+    loginfo(paste("Writing tool contract to ", jsonPath))
+    writeToolContract(registry$toolContracts[[name]], jsonPath)
+    #print(registry$toolContracts[[name]])
+  }
+  loginfo(paste("Completed writing tool contracts to ", outputDir))
+  return(0)
 }
 
 

@@ -18,7 +18,7 @@ setClass(
     taskType = "character",
     inputTypes = "vector",
     outputTypes = "vector",
-    taskOptions = "hash",
+    taskOptions = "list",
     nproc = "numeric",
     resourceTypes = "vector",
     name = "character",
@@ -61,7 +61,7 @@ setClass(
     taskType = "character", # FIXME
     inputFiles = "vector",
     outputFiles = "vector",
-    taskOptions = "hash",
+    taskOptions = "list",
     nproc = "numeric",
     resources = "vector"
   )
@@ -87,10 +87,13 @@ setClass("RegisteredToolContract",
     paste(fileNamespace, prefix, s, sep = ".")
   }
 
+# Create a PacBio file type id. This must be compatible with
+# the reference library pbcommand
+# https://github.com/PacificBiosciences/pbcommand/blob/master/pbcommand/models/common.py
 #' @export
 toFileTypeId <-
   function(s) {
-    return(paste("pbsmrtpipe", "files", s))
+    return(paste("PacBio", "FileTypes", s, sep = '.'))
   }
 #' @export
 toTaskOptionId <- function(s) {

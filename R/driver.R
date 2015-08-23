@@ -1,16 +1,9 @@
 library(methods)
 library(jsonlite)
 library(logging)
-library(hash)
 
 args <- commandArgs(TRUE)
 
-writeMockOutputFile <- function(path) {
-  fHandle <- file(path)
-  writeLines(paste("Mock file ", path), fHandle)
-  close(fHandle)
-  logger.debug(paste("Successfully wrote to", path))
-}
 
 #' Fundamental argument parser to emit tool contracts and
 #' Run tool contracts

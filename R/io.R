@@ -65,24 +65,22 @@ writeToolContract <- function(toolContract, jsonPath) {
   # this isn't really used in the R 'quick' model, so it's fine.
   toInputType <- function(ft) {
     return(list(file_type_id=ft@fileTypeId,
-                id="id",
+                id=paste("id", ft@fileTypeId, sep = "_"),
                 title=paste("Display name ", ft@fileTypeId),
                 description=paste("File type ", ft@fileTypeId)))
   }
   toOutputType <- function(ft) {
-    return(list(file_type_id=ft@file_type_id,
-                id="id",
+    return(list(file_type_id=ft@fileTypeId,
+                id=paste("id", ft@fileTypeId, sep="_"),
                 title=paste("Display name ", ft@fileTypeId),
-                default_name=paste(ft@baseName, ft@ext, sep = '.'),
+                default_name=paste(ft@baseName, ft@fileExt, sep = '.'),
                 description=paste("File type", ft@fileTypeId)))
   }
-  #input_types <- Map(toInputType, toolContract@task@inputTypes)
-  #outputTypes <- Map(toOutputType, toolContract@task@outputTypes)
-  inputTypes <- list()
-  outputTypes <- list()
-  jdriver <- list(serialization="json", exe="my-exe")
+  inputTypes <- Map(toInputType, toolContract@task@inputTypes)
+  outputTypes <- Map(toOutputType, toolContract@task@outputTypes)
+  jdriver <- list(serialization="json", exe=toolContract@driver@exe)
   jt = list(task_type="pbsmrtpipe.task_types.standard",
-            resources_types=list(),
+            resource_types=list(),
             description=desc,
             name=toolContract@task@name,
             nproc=toolContract@task@nproc,
@@ -111,7 +109,7 @@ dictToResolvedToolContract <- function(d) {
   outputFiles <- t$output_files
   nproc <- t$nproc
   taskType <- "NA"
-  taskOptions <- hash()
+  taskOptions <- list()
   resources <- c("/path/to/log")
   resolvedToolContractTask <-
     new(

@@ -51,7 +51,8 @@ runHelloWorldRtc <- function(rtc) {
 #' @export
 exampleToolRegistryBuilder <- function() {
   # The driver is what pbsmrtpipe will call with the path to resolved tool contract JSON file
-  r <- registryBuilder(PB_TOOL_NAMESPACE, "Rscript /path/to/myExample.R run-rtc ")
+  # FIXME. Not sure how to package exes with R to create a 'console entry point' in python parlance
+  r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleHelloWorld.R run-rtc ")
   # could be more clever and use partial application for registry, but this is fine
   registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 1, FALSE, runFilterFastaRtc)
   registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 1, FALSE, runFastaReportRtc)
