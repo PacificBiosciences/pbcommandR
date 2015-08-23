@@ -20,14 +20,14 @@ examplefastaReport <- function(pathToFasta, report) {
   return(0)
 }
 
-# This can be done here or in a separate file
-# There can be a single registry for all tasks, or
-# subparser-eseque model to group tasks
+# This can be done here or in a separate file There can be a single registry for
+# all tasks, or subparser-eseque model to group tasks
 
 # Define the RTC -> main funcs. Example funcs are defined in exampleTasks.R
-runFilterFastaRtc = function(rtc) {
+runFilterFastaRtc <- function(rtc) {
   minLength <- 25
-  return(examplefilterFastaTask(rtc@task@inputFiles[1], rtc@task@outputFiles[1], minLength))
+  return(examplefilterFastaTask(rtc@task@inputFiles[1], rtc@task@outputFiles[1], 
+    minLength))
 }
 
 runFastaReportRtc <- function(rtc) {
@@ -50,18 +50,22 @@ runHelloWorldRtc <- function(rtc) {
 # Example populated Registry for testing
 #' @export
 exampleToolRegistryBuilder <- function() {
-  # The driver is what pbsmrtpipe will call with the path to resolved tool contract JSON file
-  # FIXME. Not sure how to package exes with R to create a 'console entry point' in python parlance
+  # The driver is what pbsmrtpipe will call with the path to resolved tool contract
+  # JSON file FIXME. Not sure how to package exes with R to create a 'console entry
+  # point' in python parlance
   r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleHelloWorld.R run-rtc ")
   # could be more clever and use partial application for registry, but this is fine
-  registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 1, FALSE, runFilterFastaRtc)
-  registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 1, FALSE, runFastaReportRtc)
-  registerTool(r, "helloWorld", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1, FALSE, runHelloWorldRtc)
+  registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 
+    1, FALSE, runFilterFastaRtc)
+  registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA), 
+    1, FALSE, runFastaReportRtc)
+  registerTool(r, "helloWorld", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1, 
+    FALSE, runHelloWorldRtc)
   return(r)
 }
 
-# Run from a Resolved Tool Contract JSON file -> Rscript /path/to/exampleDriver.R run-rtc /path/to/rtc.json
-# Emit Registered Tool Contracts to JSON      -> Rscript /path/to/exampleDriver.R emit-tc /path/to/output-dir
-# then make Tool Contracts JSON accessible to pbsmrtpipe
-# Builds a commandline wrapper that will call your driver
-#q(status=mainRegisteryMainArgs(exampleToolRegistryBuilder()))
+# Run from a Resolved Tool Contract JSON file -> Rscript /path/to/exampleDriver.R
+# run-rtc /path/to/rtc.json Emit Registered Tool Contracts to JSON -> Rscript
+# /path/to/exampleDriver.R emit-tc /path/to/output-dir then make Tool Contracts
+# JSON accessible to pbsmrtpipe Builds a commandline wrapper that will call your
+# driver q(status=mainRegisteryMainArgs(exampleToolRegistryBuilder())) 
