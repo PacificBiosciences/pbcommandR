@@ -11,5 +11,6 @@ LazyData: true
 Imports:
 	jsonlite,
 	pryr,
-	argparser
+	argparser,
+	logging
 Suggests: testthat
