@@ -13,6 +13,7 @@ apt_packages:
 r_binary_packages:
  - RUnit
  - testthat
+ - logging
 
 # Install the bleeding edge version of a package from github (eg to pick
 # up a not-yet-released bugfix)
