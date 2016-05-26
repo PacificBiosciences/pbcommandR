@@ -1,7 +1,7 @@
 # Ported Quick Registry model from pbcommand
 # https://github.com/PacificBiosciences/pbcommand
 library(methods)
-
+#' @importFrom methods new
 #' @export
 PB_TOOL_NAMESPACE <- "pbcommandR"
 
@@ -23,13 +23,13 @@ registerTool <- function(registeryObj, idx, version, inputTypes, outputTypes, np
   resources <- c(ResourceTypes$TMP_DIR)
   taskType <- "stuff"
 
-  tcTask <- new("ToolContractTask", taskId = taskId, taskType = taskType, inputTypes = inputTypes,
+  tcTask <- methods::new("ToolContractTask", taskId = taskId, taskType = taskType, inputTypes = inputTypes,
     outputTypes = outputTypes, taskOptions = taskOptions, nproc = nproc, resourceTypes = resources,
     name = name, description = desc, version = version)
   # Need to clarify this.  {driver-base} run-rtc /path/to/rtc.json {driver-base}
   # emit-tool-contract /path/to/output-tool-contract.json
-  driver <- new("ToolDriver", exe = registeryObj$driver)
-  tc <- new("ToolContract", task = tcTask, driver = driver)
+  driver <- methods::new("ToolDriver", exe = registeryObj$driver)
+  tc <- methods::new("ToolContract", task = tcTask, driver = driver)
 
   logging::loginfo(paste("Registering tool contract ", taskId))
   registeryObj$toolContracts[[taskId]] <- tc

@@ -3,14 +3,19 @@ Title: What the Package Does (one line, title case)
 Version: 0.1.10
 Authors@R: person("Michael", "Kocher", email = "mpkocher@pacificbiosciences.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph)
-Depends: R (>= 3.1.2)
+Depends:
+    R (>= 3.1.2)
 License: BSD-3-Clause
 URL: http://github.com/mpkocher/pbcommandR
 BugReports: http://github.com/mpkocher/pbcommandR/issues
 LazyData: true
+Depends:
+  methods
 Imports:
-	jsonlite,
-	pryr,
-	argparser,
-	logging
-Suggests: testthat
+    argparser,
+    jsonlite,
+    logging,
+    pryr
+Suggests:
+    testthat
+RoxygenNote: 5.0.1

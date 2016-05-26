@@ -24,10 +24,10 @@ setClass("Report", representation(id = "character", attributeGroups = "list", pl
 getMockAttributeGroup <- function() {
   # In the python code the ids are automatically turned into absolute ids via the
   # container Not sure this is a great idea
-  a1 <- new("ReportAttribute", id = "n50", value = 1234)
-  a2 <- new("ReportAttribute", id = "mean_readlength", value = 4567)
+  a1 <- methods::new("ReportAttribute", id = "n50", value = 1234)
+  a2 <- methods::new("ReportAttribute", id = "mean_readlength", value = 4567)
   ag <- list(a1, a2)
-  attributeGroup <- new("ReportAttributeGroup", id = "pbmilhouse.subread", attributes = ag)
+  attributeGroup <- methods::new("ReportAttributeGroup", id = "pbmilhouse.subread", attributes = ag)
   return(attributeGroup)
 }
 
@@ -35,18 +35,18 @@ getMockPlotGroup <- function() {
   plotGroupId <- "pbmilhouse.readlength_plot"
 
   # see the above comment regarding ids
-  p1 <- new("ReportPlot", id = "readlength", image = "/path/to/image.png")
-  p2 <- new("ReportPlot", id = "accuracy", image = "/path/to/image2.png")
-  pg <- new("ReportPlotGroup", id = plotGroupId, plots = list(p1, p2))
+  p1 <- methods::new("ReportPlot", id = "readlength", image = "/path/to/image.png")
+  p2 <- methods::new("ReportPlot", id = "accuracy", image = "/path/to/image2.png")
+  pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1, p2))
   return(pg)
 }
 
 getMockTableGroup <- function() {
   # this should just converted from a dataframe
-  t <- new("ReportTable", id = "my_table")
-  t2 <- new("ReportTable", id = "my_readlength_table")
+  t <- methods::new("ReportTable", id = "my_table")
+  t2 <- methods::new("ReportTable", id = "my_readlength_table")
   tables <- list(t, t2)
-  tg <- new("ReportTableGroup", id = "mytable_id", tables = tables)
+  tg <- methods::new("ReportTableGroup", id = "mytable_id", tables = tables)
   return(tg)
 }
 
@@ -54,7 +54,7 @@ getMockReport <- function() {
   plotGroup <- getMockPlotGroup()
   attributeGroup <- getMockAttributeGroup()
   tableGroup <- getMockTableGroup()
-  report <- new("Report", id = "pbmilhouse_report_example", plotGroups = list(plotGroup),
+  report <- methods::new("Report", id = "pbmilhouse_report_example", plotGroups = list(plotGroup),
     attributeGroups = list(attributeGroup), tableGroups = list(tableGroup))
 
   return(report)
@@ -67,7 +67,7 @@ testBasicReport <- function() {
     stop("Malformed id")
   }
 
-  s <- toJSON(r)
+  s <- jsonLite::toJSON(r)
 
   cat("Json Report\n")
   cat(s)

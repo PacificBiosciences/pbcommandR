@@ -6,11 +6,11 @@ args <- commandArgs(TRUE)
 #' Run tool contracts
 #' @export
 getParser <- function() {
-  p <- arg_parser("Round a floating point number")
+  p <- argparser::arg_parser("Round a floating point number")
 
   # Add command line arguments
-  p <- add_argument(p, "mode", help = "Mode, emit-tc or run-rtc", type = "character")
-  p <- add_argument(p, "rtc_or_output_dir", help = "run-rtc path/to/rtc.json OR emit-tc /path/to/output-dir",
+  p <- argparser::add_argument(p, "mode", help = "Mode, emit-tc or run-rtc", type = "character")
+  p <- argparser::add_argument(p, "rtc_or_output_dir", help = "run-rtc path/to/rtc.json OR emit-tc /path/to/output-dir",
     type = "character")
   return(p)
 }
@@ -43,14 +43,14 @@ mainRegisteryMain <- function(registry, mode, rtcOrOutputDir) {
 #' CLI entry point. Parses CLI args and calls registery Runner
 #' @export
 mainRegisteryMainArgs <- function(registry) {
-  basicConfig(level = 10)
+  logging::basicConfig(level = 10)
   logging::loginfo(paste("Running with args", args))
   cat("Starting main\n")
   cat(args)
 
   p <- getParser()
   # Parse the command line arguments
-  argv <- parse_args(p)
+  argv <- argparser::parse_args(p)
   mode <- argv$mode
   rtcOrOutputDir <- argv$rtc_or_output_dir
   return(mainRegisteryMain(registry, mode, rtcOrOutputDir))

@@ -107,7 +107,7 @@ toTaskId <- function(s) {
 #' PacBio Defined task types
 #' @export
 TaskTypes <-
-  new("TaskTypes",
+  methods::new("TaskTypes",
       LOCAL = "pbsmrtpipe.constants.local_task",
       DISTRIBUTED = "pbsmrtpipe.task_types.distributed_task")
 
@@ -115,14 +115,14 @@ TaskTypes <-
   # these are ported from pbsystem file types
   toF <- function(idx, baseName, fileExt, mimeType) {
     f <-
-      new(
+      methods::new(
         "FileType", fileTypeId = toFileTypeId(idx), baseName = baseName, fileExt =
           fileExt, mimeType = mimeType
       )
     return(f)
   }
   fasta <-
-    new(
+    methods::new(
       "FileType", fileTypeId = toFileTypeId("fasta"), baseName = "file", fileExt =
         "fasta", mimeType = "text/plain"
     )
