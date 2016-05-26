@@ -5,7 +5,7 @@
 #' outputs = [FileTypes.Fasta]
 #' @export
 examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength) {
-  loginfo(paste("Writing filtered fasta to ", filteredFasta))
+  logging::loginfo(paste("Writing filtered fasta to ", filteredFasta))
   return(0)
 }
 
@@ -15,7 +15,7 @@ examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength
 #' outputs = [FileTypes.Report]
 #' @export
 examplefastaReport <- function(pathToFasta, report) {
-  loginfo(paste("Writing report of fasta file ", pathToFasta))
+  logging::loginfo(paste("Writing report of fasta file ", pathToFasta))
   # Generate a report
   return(0)
 }
