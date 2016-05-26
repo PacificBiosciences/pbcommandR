@@ -1,0 +1,36 @@
+{
+  "version": "0.2.1",
+  "driver": {
+    "serialization": "json",
+    "exe": "python -m pbcommand.cli.examples.dev_app --resolved-tool-contract "
+  },
+  "tool_contract_id": "pbcommand.tasks.dev_txt_app",
+  "tool_contract": {
+    "task_type": "pbsmrtpipe.task_types.standard",
+    "resource_types": [],
+    "description": "Tool Contract from  pbcommand.tasks.dev_txt_app",
+    "name": "Txt App",
+    "nproc": 1,
+    "is_distributed": false,
+    "schema_options": [],
+    "tool_contract_id": "pbcommand.tasks.dev_txt_app",
+    "input_types": [
+      {
+        "file_type_id": "PacBio.FileTypes.txt",
+        "id": "id_PacBio.FileTypes.txt",
+        "title": "Display name  PacBio.FileTypes.txt",
+        "description": "File type  PacBio.FileTypes.txt"
+      }
+    ],
+    "output_types": [
+      {
+        "file_type_id": "PacBio.FileTypes.txt",
+        "id": "id_PacBio.FileTypes.txt",
+        "title": "Display name  PacBio.FileTypes.txt",
+        "description": "File type  PacBio.FileTypes.txt",
+        "default_name": "output.txt"
+      }
+    ],
+    "comment": "Created from pbcommandR version  0.2.1"
+  }
+}

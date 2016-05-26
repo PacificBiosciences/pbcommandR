@@ -1,7 +1,6 @@
 #!/usr/bin/env Rscript
 
-library(methods)
-library(jsonlite)
+
 
 # pbReport Model
 setClass("ReportTable", representation(id = "character"))
@@ -19,7 +18,7 @@ setClass("ReportAttribute", representation(value = "numeric", id = "character"))
 
 setClass("ReportAttributeGroup", representation(id = "character", attributes = "list"))
 
-setClass("Report", representation(id = "character", attributeGroups = "list", plotGroups = "list", 
+setClass("Report", representation(id = "character", attributeGroups = "list", plotGroups = "list",
   tableGroups = "list"))
 
 getMockAttributeGroup <- function() {
@@ -34,7 +33,7 @@ getMockAttributeGroup <- function() {
 
 getMockPlotGroup <- function() {
   plotGroupId <- "pbmilhouse.readlength_plot"
-  
+
   # see the above comment regarding ids
   p1 <- new("ReportPlot", id = "readlength", image = "/path/to/image.png")
   p2 <- new("ReportPlot", id = "accuracy", image = "/path/to/image2.png")
@@ -55,21 +54,21 @@ getMockReport <- function() {
   plotGroup <- getMockPlotGroup()
   attributeGroup <- getMockAttributeGroup()
   tableGroup <- getMockTableGroup()
-  report <- new("Report", id = "pbmilhouse_report_example", plotGroups = list(plotGroup), 
+  report <- new("Report", id = "pbmilhouse_report_example", plotGroups = list(plotGroup),
     attributeGroups = list(attributeGroup), tableGroups = list(tableGroup))
-  
+
   return(report)
 }
 
 testBasicReport <- function() {
   r <- getMockReport()
-  
+
   if (r@id != "pbmilhouse_report_example") {
     stop("Malformed id")
   }
-  
+
   s <- toJSON(r)
-  
+
   cat("Json Report\n")
   cat(s)
-} 
+}

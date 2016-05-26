@@ -1,7 +1,8 @@
 library(pbcommandR)
 
 context("Test for loading a Tool Contract")
-path <- "/Users/mkocher/gh_projects/pbcommand/tests/data/dev_example_dev_txt_app_tool_contract.json"
+path <- "dev_example_dev_txt_app_tool_contract.json"
+
 
 test_that("Simple example", {
   tc <- loadToolContractFromPath(path)
