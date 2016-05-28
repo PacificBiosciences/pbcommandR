@@ -165,3 +165,23 @@ SymbolTypes <- .toSymbolTypes()
 #' These are log, tmp files, and dirs.
 #' @export
 ResourceTypes <- .toResourceTypes()
+
+
+#' Model For Reseq Condition
+#' @export
+#'
+setClass("ReseqCondition", representation(
+  condId = "character",
+  subreadset = "character",
+  alignmentset = "character",
+  referenceset = "character"
+ )
+)
+
+#' Model for ReseqConditions
+#' @export
+setClass("ReseqConditions", representation(
+  pipelineId = "character",
+  conditions = "list"
+  )
+)

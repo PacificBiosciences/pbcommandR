@@ -103,4 +103,26 @@ loadResolvedToolContractFromPath <- function(path) {
   return(dictToResolvedToolContract(loadJsonFromFile(path)))
 }
 
+dictToReseqCondition <- function(d) {
+  return(methods::new("ReseqCondition",
+                      condId = d$condId,
+                      subreadset = d$subreadset,
+                      alignmentset = d$alignmentset,
+                      referenceset = d$referenceset))
+}
 
+
+dictToReseqConditions <- function(d) {
+  pipelineId <- d$pipelineId
+  conditions <- lapply(d$conditions, dictToReseqCondition)
+  return(methods::new("ReseqConditions",
+                      pipelineId = pipelineId,
+                      conditions = conditions))
+}
+
+#' Load Condition
+#' @export
+loadReseqConditionsFromPath <- function(path) {
+  logging::loginfo(paste("Loading ReseqConditions from ", path))
+  return(dictToReseqConditions(loadJsonFromFile(path)))
+}
