@@ -132,8 +132,16 @@ TaskTypes <-
   gff <- toF("Gff", "file", "gff", "text/plain")
   pbrpt <-
     toF("JsonReport", "file.report", "json", "application/json")
+
+  reseqCond = toF("RESEQ_COND", "reseq-conditions", "json", "application/json")
+
   return(c(
-    FASTA = fasta, FASTQ = fastq, GFF = gff, REPORT = pbrpt, TXT = txt
+    FASTA = fasta,
+    FASTQ = fastq,
+    GFF = gff,
+    REPORT = pbrpt,
+    TXT = txt,
+    RESEQ_COND = reseqCond
   ))
 }
 
