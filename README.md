@@ -17,11 +17,19 @@ Installing
 > install_githhub("mpkocher/pbcommandR")
 ```
 
+Interactive loading
+
+```r
+> devtools::load_all()
+> # load code and experiment
+```
+
 Testing
 
 ```r
+> library(devtools)
 > library(testthat)
-> test()
+> devtools::test()
 ```
 
 # Quick start
