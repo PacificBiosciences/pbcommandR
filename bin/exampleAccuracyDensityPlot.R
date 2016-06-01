@@ -54,7 +54,7 @@ accPlotReseqConditionMain <- function(reseqConditions, reportOutputPath) {
   cond_table = do.call(rbind, tmp)
 
   # Load the pbi index for each data frame
-  dfs = lapply(as.character(cond_table$alignmentset), loadPBI)
+  dfs = lapply(as.character(cond_table$alignmentset), function(s) loadPBI(getBAMNameFromDatasetFile(s)))
   # Now combine into one large data frame
   cd = combineConditions(dfs, as.character(cond_table$condition))
   # Now calculate the accuracy
