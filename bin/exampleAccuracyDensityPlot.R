@@ -7,7 +7,7 @@ library(data.table, quietly = TRUE)
 library(jsonlite, quietly = TRUE)
 library(logging)
 library(ggplot2)
-#library(pbbamr)
+library(pbbamr)
 library(pbcommandR)
 
 #' Helper function for verifying arguments
