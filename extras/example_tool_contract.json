@@ -1,20 +1,61 @@
 {
-  "_comment": "Example Tool Contract Interface using Pbsystem",
-  "driver": {
-    "_comment": "The execution layer will call '${exe} manifest.json' as the to_cmd",
-    "exe": "python -m pbsystem.common.cmdline.dev_app --resolved-tool-contract",
-    "env": {}
-  },
-  "tool_contract": {
-    "tool_contract_id": "pbsystem.common.cmdline.dev_app",
-    "name": "Pbsystem Sample Dev Task",
-    "tool_type": "pbsmrtpipe.constants.local_task",
-    "version": "0.2.1",
-    "description": "Pbsystem that does awesome things.",
-    "input_types": ["PacBio.FileTypes.Fasta"],
-    "output_types": ["PacBio.FileTypes.Fasta"],
-    "schema_options": {},
-    "nproc": 1,
-    "resource_types": ["$tmpdir", "$logfile"]
-  }
+    "driver": {
+        "env": {},
+        "exe": "python -m pbsmrtpipe.pb_tasks.dev  run-rtc  ",
+        "serialization": "json"
+    },
+    "tool_contract": {
+        "_comment": "Created by v0.3.20",
+        "description": "Quick tool dev_filter_fasta pbsmrtpipe.tasks.dev_filter_fasta",
+        "input_types": [
+            {
+                "description": "description for PacBio.FileTypes.Fasta_0",
+                "file_type_id": "PacBio.FileTypes.Fasta",
+                "id": "Label PacBio.FileTypes.Fasta_0",
+                "title": "<FileType id=PacBio.FileTypes.Fasta name=file >"
+            }
+        ],
+        "is_distributed": false,
+        "name": "Tool dev_filter_fasta",
+        "nproc": 1,
+        "output_types": [
+            {
+                "default_name": "file",
+                "description": "description for <FileType id=PacBio.FileTypes.Fasta name=file >",
+                "file_type_id": "PacBio.FileTypes.Fasta",
+                "id": "Label PacBio.FileTypes.Fasta_0",
+                "title": "<FileType id=PacBio.FileTypes.Fasta name=file >"
+            }
+        ],
+        "resource_types": [],
+        "schema_options": [
+            {
+                "$schema": "http://json-schema.org/draft-04/schema#",
+                "pb_option": {
+                    "default": 50,
+                    "description": "Option dev_fasta_min_length description",
+                    "name": "Option dev_fasta_min_length",
+                    "option_id": "pbsmrtpipe.task_options.dev_fasta_min_length",
+                    "type": "integer"
+                },
+                "properties": {
+                    "pbsmrtpipe.task_options.dev_fasta_min_length": {
+                        "default": 50,
+                        "description": "Option dev_fasta_min_length description",
+                        "title": "Option dev_fasta_min_length",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "pbsmrtpipe.task_options.dev_fasta_min_length"
+                ],
+                "title": "JSON Schema for pbsmrtpipe.task_options.dev_fasta_min_length",
+                "type": "object"
+            }
+        ],
+        "task_type": "pbsmrtpipe.task_types.standard",
+        "tool_contract_id": "pbsmrtpipe.tasks.dev_filter_fasta"
+    },
+    "tool_contract_id": "pbsmrtpipe.tasks.dev_filter_fasta",
+    "version": "0.1.1"
 }
