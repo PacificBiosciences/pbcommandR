@@ -1,6 +1,6 @@
 # pbcommandR
 
-[![Build Status](https://travis-ci.org/mpkocher/pbcommandR.svg?branch=master)](https://travis-ci.org/mpkocher/pbcommandR)
+[![Build Status](https://travis-ci.org/PacificBiosciences/pbcommandR.svg?branch=master)](https://travis-ci.org/PacificBiosciences/pbcommandR)
 
 WIP R interface for PacBio Tool Contract and Resolved Tool Contract that can be used in pbsmrtpipe workflow engine.
 
@@ -14,7 +14,7 @@ Installing
 
 ```r
 > library(devtools)
-> install_githhub("mpkocher/pbcommandR")
+> install_githhub("PacificBiosciences/pbcommandR")
 ```
 
 Interactive loading
