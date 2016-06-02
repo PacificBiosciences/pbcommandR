@@ -158,7 +158,7 @@ TaskTypes <-
   pbrpt <-
     toF("JsonReport", "file.report", "json", "application/json")
 
-  reseqCond = toF("RESEQ_COND", "reseq-conditions", "json", "application/json")
+  reseqCond = toF("COND_RESEQ", "reseq-conditions", "json", "application/json")
 
   return(c(
     FASTA = fasta,
