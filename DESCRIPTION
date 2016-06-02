@@ -12,6 +12,7 @@ LazyData: true
 Depends:
   methods
 Imports:
+    data.table,
     argparser,
     jsonlite,
     logging,
