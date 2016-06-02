@@ -1,7 +1,7 @@
 # IO parsing for TCs and RTCs
 
 # Should grab this from DESCRIPTION
-PB_COMMANDR_VERSION <- "0.3.0"
+PB_COMMANDR_VERSION <- "0.3.1"
 
 #' General func to load JSON from a file
 #' @export
@@ -69,7 +69,7 @@ writeToolContract <- function(toolContract, jsonPath) {
     # the "id" needs to be unique
     splitID = strsplit(ft@fileTypeId, "\\.")[[1]]
     ext = splitID[length(splitID)]
-    #FIXME 
+    #FIXME
     return(list(file_type_id = file_type_id, id = paste("id", 0, tolower(ext),
       sep = "_"), title = paste("Display name ", file_type_id), description = paste("File type ",
                                                                                      file_type_id)))
