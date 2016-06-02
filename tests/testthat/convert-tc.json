@@ -1,5 +1,5 @@
 {
-  "version": "0.2.1",
+  "version": "0.3.0",
   "driver": {
     "serialization": "json",
     "exe": "python -m pbcommand.cli.examples.dev_app --resolved-tool-contract "
@@ -17,7 +17,13 @@
     "input_types": [
       {
         "file_type_id": "PacBio.FileTypes.txt",
-        "id": "id_PacBio.FileTypes.txt",
+        "id": "id_0_txt",
+        "title": "Display name  PacBio.FileTypes.txt",
+        "description": "File type  PacBio.FileTypes.txt"
+      },
+      {
+        "file_type_id": "PacBio.FileTypes.txt",
+        "id": "id_1_txt",
         "title": "Display name  PacBio.FileTypes.txt",
         "description": "File type  PacBio.FileTypes.txt"
       }
@@ -25,12 +31,19 @@
     "output_types": [
       {
         "file_type_id": "PacBio.FileTypes.txt",
-        "id": "id_PacBio.FileTypes.txt",
+        "id": "id_0_txt",
         "title": "Display name  PacBio.FileTypes.txt",
         "description": "File type  PacBio.FileTypes.txt",
-        "default_name": "output.txt"
+        "default_name": "output"
+      },
+      {
+        "file_type_id": "PacBio.FileTypes.txt",
+        "id": "id_1_txt",
+        "title": "Display name  PacBio.FileTypes.txt",
+        "description": "File type  PacBio.FileTypes.txt",
+        "default_name": "output"
       }
     ],
-    "comment": "Created from pbcommandR version  0.2.1"
+    "comment": "Created from pbcommandR version  0.3.0"
   }
 }
