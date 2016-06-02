@@ -23,7 +23,7 @@ helloReseqCondtionRtc <- function(rtc) {
 #' @export
 exampleReseqconditionRegistryBuilder <- function() {
 
-  r <- registryBuilder("example_reseq_condition", "exampleReseqCondition_R.sh run-rtc ")
+  r <- registryBuilder("pbcommandR", "exampleReseqCondition_R.sh run-rtc ")
 
   registerTool(r,
                "hello_reseq_condtion",
@@ -33,4 +33,4 @@ exampleReseqconditionRegistryBuilder <- function() {
 }
 
 
-q(status=mainRegisteryMainArgs(exampleToolRegistryBuilder()))
+q(status=mainRegisteryMainArgs(exampleReseqconditionRegistryBuilder()))

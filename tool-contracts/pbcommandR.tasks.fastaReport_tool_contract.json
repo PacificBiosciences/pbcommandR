@@ -20,25 +20,12 @@
         "id": "id_0_fasta",
         "title": "Display name  PacBio.FileTypes.Fasta",
         "description": "File type  PacBio.FileTypes.Fasta"
-      },
-      {
-        "file_type_id": "PacBio.FileTypes.Fasta",
-        "id": "id_1_fasta",
-        "title": "Display name  PacBio.FileTypes.Fasta",
-        "description": "File type  PacBio.FileTypes.Fasta"
       }
     ],
     "output_types": [
       {
         "file_type_id": "PacBio.FileTypes.Fasta",
         "id": "id_0_fasta",
-        "title": "Display name  PacBio.FileTypes.Fasta",
-        "description": "File type  PacBio.FileTypes.Fasta",
-        "default_name": "file"
-      },
-      {
-        "file_type_id": "PacBio.FileTypes.Fasta",
-        "id": "id_1_fasta",
         "title": "Display name  PacBio.FileTypes.Fasta",
         "description": "File type  PacBio.FileTypes.Fasta",
         "default_name": "file"
