@@ -14,3 +14,8 @@ Todo.md
 packrat/lib*/
 packrat/src/*
 .DS_Store
+
+# run hacky test in here
+resolved-tool-contracts
+# setup packrat env
+setup.sh
