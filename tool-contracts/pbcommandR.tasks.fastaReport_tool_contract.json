@@ -1,8 +1,8 @@
 {
-  "version": "0.2.1",
+  "version": "0.3.0",
   "driver": {
     "serialization": "json",
-    "exe": "exampleHelloWorld.R run-rtc "
+    "exe": "exampleHelloWorld_R.sh run-rtc "
   },
   "tool_contract_id": "pbcommandR.tasks.fastaReport",
   "tool_contract": {
@@ -17,7 +17,13 @@
     "input_types": [
       {
         "file_type_id": "PacBio.FileTypes.Fasta",
-        "id": "id_PacBio.FileTypes.Fasta",
+        "id": "id_0_fasta",
+        "title": "Display name  PacBio.FileTypes.Fasta",
+        "description": "File type  PacBio.FileTypes.Fasta"
+      },
+      {
+        "file_type_id": "PacBio.FileTypes.Fasta",
+        "id": "id_1_fasta",
         "title": "Display name  PacBio.FileTypes.Fasta",
         "description": "File type  PacBio.FileTypes.Fasta"
       }
@@ -25,12 +31,19 @@
     "output_types": [
       {
         "file_type_id": "PacBio.FileTypes.Fasta",
-        "id": "id_PacBio.FileTypes.Fasta",
+        "id": "id_0_fasta",
         "title": "Display name  PacBio.FileTypes.Fasta",
-        "default_name": "file.fasta",
-        "description": "File type PacBio.FileTypes.Fasta"
+        "description": "File type  PacBio.FileTypes.Fasta",
+        "default_name": "file"
+      },
+      {
+        "file_type_id": "PacBio.FileTypes.Fasta",
+        "id": "id_1_fasta",
+        "title": "Display name  PacBio.FileTypes.Fasta",
+        "description": "File type  PacBio.FileTypes.Fasta",
+        "default_name": "file"
       }
     ],
-    "comment": "Created from pbcommandR version  0.2.1"
+    "comment": "Created from pbcommandR version  0.3.0"
   }
 }

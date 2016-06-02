@@ -1,6 +1,9 @@
 # Common Datamodels
 fileNamespace <- "pbsmrtpipeR"
 
+
+#' File Type
+#' @export
 setClass(
   "FileType", representation(
     fileTypeId = "character",
@@ -9,6 +12,28 @@ setClass(
     mimeType = "character"
   )
 )
+
+#' Tool Contract Task Input File Type
+#' @export
+setClass("InputFileType",
+representation(title = "character",
+description = "character",
+id = "character",
+fileTypeId = "character"
+)
+)
+
+#' Tool Contract Task Input File Type
+#' @export
+setClass("OutputFileType",
+representation(title = "character",
+description = "character",
+baseName = "character",
+id = "character",
+fileTypeId = "character"
+)
+)
+
 
 #' Tool Contract
 #' @export
