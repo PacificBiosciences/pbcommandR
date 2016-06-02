@@ -20,25 +20,12 @@
         "id": "id_0_txt",
         "title": "Display name  PacBio.FileTypes.txt",
         "description": "File type  PacBio.FileTypes.txt"
-      },
-      {
-        "file_type_id": "PacBio.FileTypes.txt",
-        "id": "id_1_txt",
-        "title": "Display name  PacBio.FileTypes.txt",
-        "description": "File type  PacBio.FileTypes.txt"
       }
     ],
     "output_types": [
       {
         "file_type_id": "PacBio.FileTypes.txt",
         "id": "id_0_txt",
-        "title": "Display name  PacBio.FileTypes.txt",
-        "description": "File type  PacBio.FileTypes.txt",
-        "default_name": "output"
-      },
-      {
-        "file_type_id": "PacBio.FileTypes.txt",
-        "id": "id_1_txt",
         "title": "Display name  PacBio.FileTypes.txt",
         "description": "File type  PacBio.FileTypes.txt",
         "default_name": "output"
