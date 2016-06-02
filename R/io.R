@@ -69,20 +69,22 @@ writeToolContract <- function(toolContract, jsonPath) {
     # the "id" needs to be unique
     splitID = strsplit(ft@fileTypeId, "\\.")[[1]]
     ext = splitID[length(splitID)]
-    return(list(file_type_id = file_type_id, id = paste("id", i, tolower(ext),
+    #FIXME 
+    return(list(file_type_id = file_type_id, id = paste("id", 0, tolower(ext),
       sep = "_"), title = paste("Display name ", file_type_id), description = paste("File type ",
                                                                                      file_type_id)))
   }
 
   # The output adds a default output base name (without the extention)
-  toOutputType <- function(ft, i) {
-    tmp = toInputType(ft, i)
+  toOutputType <- function(ft) {
+    tmp = toInputType(ft)
     tmp$default_name <- ft@baseName
     return(tmp)
   }
 
-  inputTypes <- Map(toInputType, toolContract@task@inputTypes, 0:length(toolContract@task@inputTypes))
-  outputTypes <- Map(toOutputType, toolContract@task@outputTypes, 0:length(toolContract@task@outputTypes))
+  inputTypes <- Map(toInputType, toolContract@task@inputTypes)
+  outputTypes <- Map(toOutputType, toolContract@task@outputTypes)
+
   jdriver <- list(serialization = "json", exe = toolContract@driver@exe)
 
   jt <- list(task_type = "pbsmrtpipe.task_types.standard", resource_types = list(),
@@ -92,6 +94,7 @@ writeToolContract <- function(toolContract, jsonPath) {
 
   j <- list(version = PB_COMMANDR_VERSION, driver = jdriver, tool_contract_id = toolContract@task@taskId,
     tool_contract = jt)
+
   jsonToolContract <- jsonlite::toJSON(j, pretty = TRUE, auto_unbox = TRUE)
   cat(jsonToolContract, file = jsonPath)
   return(jsonToolContract)
