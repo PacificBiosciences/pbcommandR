@@ -2,24 +2,24 @@
   "version": "0.3.0",
   "driver": {
     "serialization": "json",
-    "exe": "exampleHelloWorld_R.sh run-rtc "
+    "exe": "exampleReseqCondition_R.sh run-rtc "
   },
-  "tool_contract_id": "pbcommandR.tasks.helloWorld",
+  "tool_contract_id": "pbcommandR.tasks.hello_reseq_condtion",
   "tool_contract": {
     "task_type": "pbsmrtpipe.task_types.standard",
     "resource_types": [],
-    "description": "Tool Contract from  pbcommandR.tasks.helloWorld",
-    "name": "Task Name  pbcommandR.tasks.helloWorld",
+    "description": "Tool Contract from  pbcommandR.tasks.hello_reseq_condtion",
+    "name": "Task Name  pbcommandR.tasks.hello_reseq_condtion",
     "nproc": 1,
     "is_distributed": false,
     "schema_options": [],
-    "tool_contract_id": "pbcommandR.tasks.helloWorld",
+    "tool_contract_id": "pbcommandR.tasks.hello_reseq_condtion",
     "input_types": [
       {
-        "file_type_id": "PacBio.FileTypes.txt",
-        "id": "id_0_txt",
-        "title": "Display name  PacBio.FileTypes.txt",
-        "description": "File type  PacBio.FileTypes.txt"
+        "file_type_id": "PacBio.FileTypes.RESEQ_COND",
+        "id": "id_0_reseq_cond",
+        "title": "Display name  PacBio.FileTypes.RESEQ_COND",
+        "description": "File type  PacBio.FileTypes.RESEQ_COND"
       }
     ],
     "output_types": [

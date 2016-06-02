@@ -7,7 +7,7 @@ library(data.table, quietly = TRUE)
 library(jsonlite, quietly = TRUE)
 library(logging)
 library(ggplot2)
-library(pbbamr)
+#library(pbbamr)
 library(pbcommandR)
 
 #' Helper function for verifying arguments
@@ -86,7 +86,7 @@ accPlotReseqCondtionRtc <- function(rtc) {
 #' @export
 exampleReseqconditionRegistryBuilder <- function() {
 
-  r <- registryBuilder("accplot_reseq_condition", "exampleAccuracyDensityPlot_R.sh run-rtc ")
+  r <- registryBuilder("pbcommandR", "exampleAccuracyDensityPlot_R.sh run-rtc ")
 
   registerTool(r,
                "accplot_reseq_condition",
