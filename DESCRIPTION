@@ -12,6 +12,7 @@ LazyData: true
 Depends:
   methods
 Imports:
+    uuid
     data.table,
     argparser,
     jsonlite,

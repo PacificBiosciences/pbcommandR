@@ -4,7 +4,7 @@
 \alias{examplefastaReport}
 \title{Example Task for Testing with emitting a report}
 \usage{
-examplefastaReport(pathToFasta, report)
+examplefastaReport(pathToFasta, reportPath)
 }
 \description{
 inputs = [FileTypes.Fasta]
