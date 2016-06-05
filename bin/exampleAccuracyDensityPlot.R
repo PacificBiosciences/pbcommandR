@@ -42,7 +42,7 @@ combineConditions <- function(dfs, names) {
 
 #' Main function to produce plots given a json file and output path
 accPlotReseqConditionMain <- function(reseqConditions, reportOutputPath) {
-  logging.info("Running Accuracy Denisty Plot with conditions ", reseqConditions)
+  logging::loginfo("Running Accuracy Denisty Plot with conditions ", reseqConditions)
   # Convert json into a data frame
   decoded <- loadReseqConditionsFromPath(reseqConditions)
   conds = decoded@conditions
@@ -86,7 +86,7 @@ accPlotReseqCondtionRtc <- function(rtc) {
 #' @export
 exampleReseqconditionRegistryBuilder <- function() {
 
-  r <- registryBuilder("pbcommandR", "exampleAccuracyDensityPlot_R.sh run-rtc ")
+  r <- registryBuilder("pbcommandR", "exampleAccuracyDensityPlot.R run-rtc ")
 
   registerTool(r,
                "accplot_reseq_condition",

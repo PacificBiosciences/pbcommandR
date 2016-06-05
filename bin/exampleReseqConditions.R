@@ -7,28 +7,55 @@ library(argparser)
 library(logging)
 library(jsonlite, quietly = TRUE)
 
-helloReseqConditionMain <- function(reseqConditions, reportOutputPath) {
-  logging.info("Running main with conditions ", reseqConditions)
-  write("Hello World Reseq Condition", file = reportOutputPath)
+#' Example Function that would be imported from your core library
+helloReseqConditionMain <- function(reseqConditionsPath, txtOutputPath) {
+  logging::loginfo("Running main with conditions from file", reseqConditionsPath)
+  reseqConditions <- loadReseqConditionsFromPath(reseqConditionsPath)
+  logging::loginfo("Loaded conditions ")
+  write("Hello World Reseq Condition", file = txtOutputPath)
   return(0)
 }
 
+#' Example function that will leverage a Report and write
+#' a single Report Attribute
+helloReseqConditionReportMain <- function(reseqConditionsPath, reportOutputPath) {
+  logging::loginfo("Running main with conditions from file", reseqConditionsPath)
+  reseqConditions <- loadReseqConditionsFromPath(reseqConditionsPath)
+  logging::loginfo("Loaded conditions ")
 
+  a1 <- methods::new("ReportAttribute", id = "num_conditions", value = length(reseqConditions@conditions), name = "Number of Conditions")
+
+  report <- methods::new("Report", id = "pbcommandR_hello_reseq", plotGroups = list(),
+  attributes = list(a1), tables = list())
+
+  writeReport(report, reportOutputPath)
+  logging::loginfo("completed writing report")
+  return(0)
+}
+
+# Resolved Tool Contract Wrappers to call lib main code
+
+#' Convert RTC to args for lib function,
 helloReseqCondtionRtc <- function(rtc) {
   return(helloReseqCondtionMain(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
 }
 
+helloReseqCondtionReportRtc <- function(rtc) {
+  return(helloReseqConditionReportMain(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
+}
 
 # Example populated Registry for testing
 #' @export
 exampleReseqconditionRegistryBuilder <- function() {
 
-  r <- registryBuilder("pbcommandR", "exampleReseqCondition_R.sh run-rtc ")
+  r <- registryBuilder("pbcommandR", "exampleReseqCondition.R run-rtc ")
 
   registerTool(r,
-               "hello_reseq_condtion",
-               "0.1.0",
+               "hello_reseq_condition", "0.1.0",
                c(FileTypes$RESEQ_COND), c(FileTypes$TXT), 1, FALSE, helloReseqCondtionRtc)
+
+  registerTool(r, "hello_reseq_condition_report", "0.1.0",
+    c(FileTypes$RESEQ_COND), c(FileTypes$REPORT), 1, FALSE, helloReseqCondtionReportRtc)
   return(r)
 }
 

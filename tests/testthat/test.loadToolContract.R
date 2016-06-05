@@ -13,7 +13,8 @@ test_that("Sanity Example to load TC from file", {
 test_that("Convert TC to JSON, then load TC from JSON", {
   tc <- loadToolContractFromPath(path)
   logging::loginfo("successfully loaded TC")
-  writeToolContract(tc, "convert-tc.json")
+  outputTc <- tempfile(pattern = "file", tmpdir = tempdir(), fileext = "tool_contract.json")
+  writeToolContract(tc, outputTc)
   logging::loginfo("completed writing tool contract")
   expect_that(10, equals(10))
 })

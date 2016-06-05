@@ -31,7 +31,7 @@ mainRegisteryMain <- function(registry, mode, rtcOrOutputDir) {
     exitCode <- emitRegistryToolContractsTo(registry, outputDir)
   } else {
     cat(paste("Unsupported mode ", mode, " Suppored modes 'emit-tc', and 'run-rtc'"))
-    exitCode <- -1
+    exitCode <- 2
   }
 
   # run time in seconds

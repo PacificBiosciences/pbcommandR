@@ -54,7 +54,7 @@ exampleToolRegistryBuilder <- function() {
   # point' in python parlance
   # FIXME. There's an extra shell layer to get packrat loaded so the exampleHelloWorld.R
   # can be called correctly.
-  r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleHelloWorld_R.sh run-rtc ")
+  r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleHelloWorld.R run-rtc ")
   # could be more clever and use partial application for registry, but this is fine
   registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA),
     1, FALSE, runFilterFastaRtc)

@@ -23,6 +23,12 @@ Interactive loading
 > devtools::load_all()
 > # load code and experiment
 ```
+Update NAMESPACE to export funcs.
+
+```r
+> library(devtools)
+> document()
+```
 
 Testing
 
