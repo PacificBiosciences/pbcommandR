@@ -3,6 +3,13 @@ PackratVersion: 0.4.4
 RVersion: 3.3.0
 Repos: CRAN=https://cran.rstudio.com/
 
+Package: NMF
+Source: CRAN
+Version: 0.20.6
+Hash: 632aad207ab2e551b33990c9f09ab8af
+Requires: RColorBrewer, colorspace, digest, doParallel, foreach,
+    ggplot2, gridBase, pkgmaker, registry, reshape2, rngtools, stringr
+
 Package: R6
 Source: CRAN
 Version: 2.1.2
@@ -72,6 +79,29 @@ Source: CRAN
 Version: 0.6.8
 Hash: de202f956596a476d09304e3a2ebf1e5
 
+Package: doParallel
+Source: CRAN
+Version: 1.0.10
+Hash: df91a7abfa938c06ad87b9a2b9269adb
+Requires: foreach, iterators
+
+Package: evaluate
+Source: CRAN
+Version: 0.9
+Hash: cf338d73ba4ee3a4fefec612cdfd38db
+Requires: stringr
+
+Package: foreach
+Source: CRAN
+Version: 1.4.3
+Hash: cd53ef4cf29dc59ce3f8c5c1af735fd1
+Requires: iterators
+
+Package: formatR
+Source: CRAN
+Version: 1.4
+Hash: b2a47a2b91737978cf50ba95825a9cd1
+
 Package: getopt
 Source: CRAN
 Version: 1.20.0
@@ -88,6 +118,11 @@ Source: CRAN
 Version: 0.15.0
 Hash: 92d5a9f3cba5e146b92a76dabbc29fbb
 
+Package: gridBase
+Source: CRAN
+Version: 0.4-7
+Hash: d4b7f73c0fdf11d18d1e1ae1643ac4ec
+
 Package: gtable
 Source: CRAN
 Version: 0.2.0
@@ -98,21 +133,60 @@ Source: CRAN
 Version: 2.2.6
 Hash: 4ee63151031d09c6f24a9179fe83e634
 
+Package: highr
+Source: CRAN
+Version: 0.6
+Hash: aa3d5b7912b5fed4b546ed5cd2a1760b
+
 Package: httr
 Source: CRAN
 Version: 1.1.0
 Hash: 27ffb4b4dbb8ac4019126070d66910fc
 Requires: R6, curl, jsonlite, mime, openssl
 
+Package: igraph
+Source: CRAN
+Version: 1.0.1
+Hash: 26ac36402e881905359daabfd9ba4057
+Requires: NMF, irlba, magrittr
+
+Package: irlba
+Source: CRAN
+Version: 2.0.0
+Hash: 53647cf593a0f5e5ae4f713d125499d1
+
+Package: iterators
+Source: CRAN
+Version: 1.0.8
+Hash: 488b93c2a4166db0d15f1e8d882cb1d4
+
 Package: jsonlite
 Source: CRAN
-Version: 0.9.20
-Hash: 7c342f33735452ef1f1512af8bcca066
+Version: 0.9.21
+Hash: 4715435f79ce983ec7e041f6be4742f4
+
+Package: knitr
+Source: CRAN
+Version: 1.13
+Hash: 8d686cbee88c93b735281a22b2ca59dd
+Requires: digest, evaluate, formatR, highr, markdown, stringr, yaml
 
 Package: labeling
 Source: CRAN
 Version: 0.3
 Hash: ecf589b42cd284b03a4beb9665482d3e
+
+Package: lazyeval
+Source: CRAN
+Version: 0.1.10
+Hash: 9679f1ac7f6bc07bc79755f34cd15e1f
+
+Package: lintr
+Source: CRAN
+Version: 1.0.0
+Hash: e24fa442a350e73f3b3fdf44f610863b
+Requires: crayon, digest, httr, igraph, jsonlite, knitr, rex,
+    rstudioapi, stringdist, testthat
 
 Package: logging
 Source: CRAN
@@ -123,6 +197,12 @@ Package: magrittr
 Source: CRAN
 Version: 1.5
 Hash: bdc4d48c3135e8f3b399536ddf160df4
+
+Package: markdown
+Source: CRAN
+Version: 0.7.7
+Hash: fea2343a1119d61b0cc5c0a950d103a3
+Requires: mime
 
 Package: memoise
 Source: CRAN
@@ -151,6 +231,12 @@ Source: CRAN
 Version: 0.4.4
 Hash: aed7d17407538df551a57caf6289c8bf
 
+Package: pkgmaker
+Source: CRAN
+Version: 0.22
+Hash: 2e5fc2a6b7eaeb1e1d397a8dc5f54480
+Requires: digest, registry, stringr, xtable
+
 Package: plyr
 Source: CRAN
 Version: 1.8.3
@@ -163,11 +249,28 @@ Version: 0.1.2
 Hash: fdb7060ef9932e8d0332aa3c8f49dde8
 Requires: Rcpp, stringr
 
+Package: registry
+Source: CRAN
+Version: 0.3
+Hash: f9447c26b51b8c96f53720c5ff862c93
+
 Package: reshape2
 Source: CRAN
 Version: 1.4.1
 Hash: 4c341beb363831f5320f678f7f1b679d
 Requires: Rcpp, plyr, stringr
+
+Package: rex
+Source: CRAN
+Version: 1.1.1
+Hash: 69e208c6283398d235e507a658ba8079
+Requires: lazyeval, magrittr
+
+Package: rngtools
+Source: CRAN
+Version: 1.2.4
+Hash: 4db0661fe95ab6eb3d6339495bf22003
+Requires: digest, pkgmaker, stringr
 
 Package: roxygen2
 Source: CRAN
@@ -185,6 +288,11 @@ Source: CRAN
 Version: 0.4.0
 Hash: bce90b73946711302c29ceabdb08241c
 Requires: RColorBrewer, Rcpp, dichromat, labeling, munsell, plyr
+
+Package: stringdist
+Source: CRAN
+Version: 0.9.4.1
+Hash: 565e2789f9e45d317b2a3bae1bb74b59
 
 Package: stringi
 Source: CRAN
@@ -212,3 +320,13 @@ Package: withr
 Source: CRAN
 Version: 1.0.1
 Hash: e3d37838719e5d66652364e2aefebcee
+
+Package: xtable
+Source: CRAN
+Version: 1.8-2
+Hash: 7293235cfcc14cdff1ce7fd1a0212031
+
+Package: yaml
+Source: CRAN
+Version: 2.1.13
+Hash: 4854ccabebc225e8a7309fb4a74980de
