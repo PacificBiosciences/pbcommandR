@@ -10,29 +10,12 @@ examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength
   return(0)
 }
 
-exampleReport <- function(outputPath) {
-
-  reportUUID <- uuid::UUIDgenerate()
-  version <- "3.1.0"
-  attributes = list()
-
-
-  report <- methods::new("Report",
-  uuid = reportUUID,
-  version = version,
-  id = "pbcommandr_hello_reseq",
-  plotGroups = plotGroups,
-  attributes = attributes,
-  tables = tables)
-
-  return(report)
-}
-
 getPlotGroup <- function(outputPath) {
-  plotGroupId <- "plotgroupa"
+  plotGroupId <- "plotgroup_a"
 
   # Demo function
-  fun.1 <- function(x) x^2 + x
+  fun.1 <- function(x) { return(x^2 + x) }
+
   p <- ggplot2::ggplot(data = data.frame(x = 0), mapping = ggplot2::aes(x = x))
   p + ggplot2::stat_function(fun = fun.1) + ggplot2::xlim(-5,5)
 
