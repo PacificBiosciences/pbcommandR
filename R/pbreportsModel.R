@@ -14,18 +14,35 @@ setClass("ReportPlot", representation(id = "character", image = "character"))
 
 setClass("ReportPlotGroup", representation(id = "character", plots = "list"))
 
-setClass("ReportAttribute", representation(value = "numeric", id = "character"))
+# This needs to be updated to support Strings
+setClass("ReportAttribute", representation(value = "numeric", id = "character", name = "character"))
 
-setClass("ReportAttributeGroup", representation(id = "character", attributes = "list"))
+# Need to validate "id" format.
+setClass("Report", representation(id = "character", attributes = "list", plotGroups = "list",
+  tables = "list"))
 
-setClass("Report", representation(id = "character", attributeGroups = "list", plotGroups = "list",
-  tableGroups = "list"))
+# FIXME. Add loadReportFrom
+#' @export
+writeReport <- function(r, outputPath) {
+  # Temp hack to get this json to look correct
+  attributeToD <- function(a) {
+    return(list(id = paste(r@id, a@id, sep="."), value = a@value, name = a@name))
+  }
+
+  attributes <- Map(attributeToD, r@attributes)
+  rx <- list(id = r@id, attibutes = attributes, dataset_uuid = list(), plotGroups = list(), tables = list())
+
+  sx <- jsonlite::toJSON(rx, pretty = TRUE, auto_unbox = TRUE)
+  write(sx, file = outputPath)
+  return(sx)
+}
+
 
 getMockAttributeGroup <- function() {
   # In the python code the ids are automatically turned into absolute ids via the
   # container Not sure this is a great idea
-  a1 <- methods::new("ReportAttribute", id = "n50", value = 1234)
-  a2 <- methods::new("ReportAttribute", id = "mean_readlength", value = 4567)
+  a1 <- methods::new("ReportAttribute", id = "n50", value = 1234, name = "n50")
+  a2 <- methods::new("ReportAttribute", id = "mean_readlength", value = 4567, name = "Mean Readlength")
   ag <- list(a1, a2)
   attributeGroup <- methods::new("ReportAttributeGroup", id = "pbmilhouse.subread", attributes = ag)
   return(attributeGroup)
@@ -67,7 +84,7 @@ testBasicReport <- function() {
     stop("Malformed id")
   }
 
-  s <- jsonLite::toJSON(r)
+  s <- jsonlite::toJSON(r)
 
   cat("Json Report\n")
   cat(s)
