@@ -6,7 +6,44 @@
 #' @export
 examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength) {
   logging::loginfo(paste("Writing filtered fasta to ", filteredFasta))
+  write(">r1\nACGT\n>r2\nACCCGGTTT\n", filteredFasta)
   return(0)
+}
+
+exampleReport <- function(outputPath) {
+
+  reportUUID <- uuid::UUIDgenerate()
+  version <- "3.1.0"
+  attributes = list()
+
+
+  report <- methods::new("Report",
+  uuid = reportUUID,
+  version = version,
+  id = "pbcommandr_hello_reseq",
+  plotGroups = plotGroups,
+  attributes = attributes,
+  tables = tables)
+
+  return(report)
+}
+
+getPlotGroup <- function(outputPath) {
+  plotGroupId <- "plotgroupa"
+
+  # Demo function
+  fun.1 <- function(x) x^2 + x
+  p <- ggplot2::ggplot(data = data.frame(x = 0), mapping = ggplot2::aes(x = x))
+  p + ggplot2::stat_function(fun = fun.1) + ggplot2::xlim(-5,5)
+
+  ggplot2::ggsave(outputPath, plot = ggplot2::last_plot())
+
+  basePlotFileName <- basename(outputPath)
+  # see the above comment regarding ids. The Plots must always be provided
+  # as relative path to the output dir
+  p1 <- methods::new("ReportPlot", id = "parabola_dev_example", image = basePlotFileName)
+  pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1))
+  return(pg)
 }
 
 #' Example Task for Testing with emitting a report
@@ -14,9 +51,33 @@ examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength
 #' inputs = [FileTypes.Fasta]
 #' outputs = [FileTypes.Report]
 #' @export
-examplefastaReport <- function(pathToFasta, report) {
-  logging::loginfo(paste("Writing report of fasta file ", pathToFasta))
-  # Generate a report
+examplefastaReport <- function(pathToFasta, reportPath) {
+  logging::loginfo(paste("loading fasta file ", pathToFasta))
+  logging::loginfo(paste("will be writing report to ", reportPath))
+
+  imageName <- "report_plot.png"
+
+  reportDir <- dirname(reportPath)
+  imagePath <- file.path(reportDir, imageName)
+
+  reportUUID <- uuid::UUIDgenerate()
+  reportId = "pbcommandr_dev_fasta"
+  version <- "3.1.0"
+  tables = list()
+  attributes = list()
+  plotGroups <- list(getPlotGroup(imagePath))
+
+
+  report <- methods::new("Report",
+  uuid = reportUUID,
+  version = version,
+  id = reportId,
+  plotGroups = plotGroups,
+  attributes = attributes,
+  tables = tables)
+
+  writeReport(report, reportPath)
+  logging::loginfo(paste("Wrote report to ", reportPath))
   return(0)
 }
 
@@ -58,7 +119,7 @@ exampleToolRegistryBuilder <- function() {
   # could be more clever and use partial application for registry, but this is fine
   registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA),
     1, FALSE, runFilterFastaRtc)
-  registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA),
+  registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$REPORT),
     1, FALSE, runFastaReportRtc)
   registerTool(r, "helloWorld", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1,
     FALSE, runHelloWorldRtc)
