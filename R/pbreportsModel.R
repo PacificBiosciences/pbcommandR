@@ -62,7 +62,7 @@ writeReport <- function(r, outputPath) {
     id = r@id,
     uuid = r@uuid,
     version = r@version,
-    attibutes = attributes,
+    attributes = attributes,
     dataset_uuid = list(),
     plotGroups = plotGroups,
     tables = list())
