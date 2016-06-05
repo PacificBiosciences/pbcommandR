@@ -311,6 +311,11 @@ Version: 0.10.0
 Hash: e1c29715cb8ae5e023b0b8ad64e308f7
 Requires: crayon, digest
 
+Package: uuid
+Source: CRAN
+Version: 0.1-2
+Hash: 69acbbcf4dcff3a258f94de540214001
+
 Package: whisker
 Source: CRAN
 Version: 0.3-2
