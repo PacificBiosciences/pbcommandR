@@ -42,7 +42,7 @@ combineConditions <- function(dfs, names) {
 
 #' Main function to produce plots given a json file and output path
 accPlotReseqConditionMain <- function(reseqConditions, reportOutputPath) {
-  logging.info("Running Accuracy Denisty Plot with conditions ", reseqConditions)
+  logging::loginfo("Running Accuracy Denisty Plot with conditions ", reseqConditions)
   # Convert json into a data frame
   decoded <- loadReseqConditionsFromPath(reseqConditions)
   conds = decoded@conditions
