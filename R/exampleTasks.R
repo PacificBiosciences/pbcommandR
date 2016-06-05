@@ -44,10 +44,10 @@ examplefastaReport <- function(pathToFasta, reportPath) {
   imagePath <- file.path(reportDir, imageName)
 
   reportUUID <- uuid::UUIDgenerate()
-  reportId = "pbcommandr_dev_fasta"
+  reportId <- "pbcommandr_dev_fasta"
   version <- "3.1.0"
-  tables = list()
-  attributes = list()
+  tables <- list()
+  attributes <- list()
   plotGroups <- list(getPlotGroup(imagePath))
 
 
