@@ -10,9 +10,11 @@ URL: http://github.com/mpkocher/pbcommandR
 BugReports: http://github.com/mpkocher/pbcommandR/issues
 LazyData: true
 Depends:
-  methods
+  uuid,
+  methods,
+  lintr
 Imports:
-    uuid
+    uuid,
     data.table,
     argparser,
     jsonlite,
