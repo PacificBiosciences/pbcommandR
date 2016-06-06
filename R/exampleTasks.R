@@ -10,21 +10,28 @@ examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength
   return(0)
 }
 
+#' @param outputPath = Abspath to output image, must be png.
 getPlotGroup <- function(outputPath) {
   plotGroupId <- "plotgroup_a"
 
-  # Demo function
-  fun.1 <- function(x) { return(x^2 + x) }
+  # taken from
+  # http://www.cookbook-r.com/Graphs/Scatterplots_(ggplot2)/
+  set.seed(955)
+  dat <- data.frame(cond = rep(c("A", "B"), each=10),
+                    xvar = 1:20 + rnorm(20,sd=3),
+                    yvar = 1:20 + rnorm(20,sd=3))
 
-  p <- ggplot2::ggplot(data = data.frame(x = 0), mapping = ggplot2::aes(x = x))
-  p + ggplot2::stat_function(fun = fun.1) + ggplot2::xlim(-5,5)
+  ggplot2::ggplot(dat, ggplot2::aes(x=xvar, y=yvar)) +
+    ggplot2::geom_point(shape=1) +
+    ggplot2::geom_smooth(method=lm)
 
   ggplot2::ggsave(outputPath, plot = ggplot2::last_plot())
 
+  logging::loginfo(paste("wrote image to ", outputPath, sep = ""))
   basePlotFileName <- basename(outputPath)
   # see the above comment regarding ids. The Plots must always be provided
   # as relative path to the output dir
-  p1 <- methods::new("ReportPlot", id = "parabola_dev_example", image = basePlotFileName)
+  p1 <- methods::new("ReportPlot", id = "dev_example", image = basePlotFileName)
   pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1))
   return(pg)
 }
@@ -44,6 +51,7 @@ examplefastaReport <- function(pathToFasta, reportPath) {
   imagePath <- file.path(reportDir, imageName)
 
   reportUUID <- uuid::UUIDgenerate()
+  # report ids must be lower case and only match \
   reportId <- "pbcommandr_dev_fasta"
   version <- "3.1.0"
   tables <- list()

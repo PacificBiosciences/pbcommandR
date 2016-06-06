@@ -6,7 +6,7 @@ args <- commandArgs(TRUE)
 #' Run tool contracts
 #' @export
 getParser <- function() {
-  p <- argparser::arg_parser("Round a floating point number")
+  p <- argparser::arg_parser(paste("Run a tool from a Resolved Tool Contract, or Emit a Tool Contract with v", PB_COMMANDR_VERSION, sep = ""))
 
   # Add command line arguments
   p <- argparser::add_argument(p, "mode", help = "Mode, emit-tc or run-rtc", type = "character")
