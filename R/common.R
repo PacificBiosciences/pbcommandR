@@ -5,7 +5,8 @@ fileNamespace <- "pbsmrtpipeR"
 #' File Type
 #' @export
 setClass(
-  "FileType", representation(
+  "FileType",
+  representation(
     fileTypeId = "character",
     baseName = "character",
     fileExt = "character",
@@ -15,30 +16,35 @@ setClass(
 
 #' Tool Contract Task Input File Type
 #' @export
-setClass("InputFileType",
-representation(title = "character",
-description = "character",
-id = "character",
-fileTypeId = "character"
-)
+setClass(
+  "InputFileType",
+  representation(
+    title = "character",
+    description = "character",
+    id = "character",
+    fileTypeId = "character"
+  )
 )
 
 #' Tool Contract Task Input File Type
 #' @export
-setClass("OutputFileType",
-representation(title = "character",
-description = "character",
-baseName = "character",
-id = "character",
-fileTypeId = "character"
-)
+setClass(
+  "OutputFileType",
+  representation(
+    title = "character",
+    description = "character",
+    baseName = "character",
+    id = "character",
+    fileTypeId = "character"
+  )
 )
 
 
 #' Tool Contract
 #' @export
 setClass(
-  "ToolContractTask", representation(
+  "ToolContractTask",
+  representation(
     taskId = "character",
     taskType = "character",
     inputTypes = "vector",
@@ -54,7 +60,8 @@ setClass(
 
 # How to generalize this to character, numeric
 setClass(
-  "TaskOption", representation(
+  "TaskOption",
+  representation(
     optionId = "character",
     jsonSchemaTypes = "list",
     displayName = "character",
@@ -63,8 +70,9 @@ setClass(
   )
 )
 
-setClass("TaskTypes", representation(LOCAL = "character", DISTRIBUTED =
-                                       "character"))
+setClass("TaskTypes",
+         representation(LOCAL = "character", DISTRIBUTED =
+                          "character"))
 
 #' Tool Driver
 #' has the driver exe and env (to be added)
@@ -73,17 +81,18 @@ setClass("ToolDriver", representation(exe = "character"))
 
 #' Tool Contract
 #' @export
-setClass(
-  "ToolContract", representation(task = "ToolContractTask",
-                                 driver = "ToolDriver")
-)
+setClass("ToolContract",
+         representation(task = "ToolContractTask",
+                        driver = "ToolDriver"))
 
 #' Resolved Tool Contract Task
 #' @export
 setClass(
-  "ResolvedToolContractTask", representation(
+  "ResolvedToolContractTask",
+  representation(
     taskId = "character",
-    taskType = "character", # FIXME
+    taskType = "character",
+    # FIXME
     inputFiles = "vector",
     outputFiles = "vector",
     taskOptions = "list",
@@ -95,16 +104,17 @@ setClass(
 #' Resolved Tool Contract
 #' @export
 setClass(
-  "ResolvedToolContract", representation(task = "ResolvedToolContractTask",
-                                         driver = "ToolDriver")
+  "ResolvedToolContract",
+  representation(task = "ResolvedToolContractTask",
+                 driver = "ToolDriver")
 )
 
 #' Registered Tool Contract
 #' @export
-setClass("RegisteredToolContract",
-         representation(
-           toolContract = "ToolContract",
-           toCmd = "function")
+setClass(
+  "RegisteredToolContract",
+  representation(toolContract = "ToolContract",
+                 toCmd = "function")
 )
 
 .toId <-
@@ -133,23 +143,31 @@ toTaskId <- function(s) {
 #' @export
 TaskTypes <-
   methods::new("TaskTypes",
-      LOCAL = "pbsmrtpipe.constants.local_task",
-      DISTRIBUTED = "pbsmrtpipe.task_types.distributed_task")
+               LOCAL = "pbsmrtpipe.constants.local_task",
+               DISTRIBUTED = "pbsmrtpipe.task_types.distributed_task")
 
 .toFileTypes <- function() {
   # these are ported from pbsystem file types
   toF <- function(idx, baseName, fileExt, mimeType) {
     f <-
       methods::new(
-        "FileType", fileTypeId = toFileTypeId(idx), baseName = baseName, fileExt =
-          fileExt, mimeType = mimeType
+        "FileType",
+        fileTypeId = toFileTypeId(idx),
+        baseName = baseName,
+        fileExt =
+          fileExt,
+        mimeType = mimeType
       )
     return(f)
   }
   fasta <-
     methods::new(
-      "FileType", fileTypeId = toFileTypeId("fasta"), baseName = "file", fileExt =
-        "fasta", mimeType = "text/plain"
+      "FileType",
+      fileTypeId = toFileTypeId("fasta"),
+      baseName = "file",
+      fileExt =
+        "fasta",
+      mimeType = "text/plain"
     )
   txt <- toF("txt", "file", "txt", "text/plain")
   fasta <- toF("Fasta", "file", "fasta", "text/plain")
@@ -158,7 +176,10 @@ TaskTypes <-
   pbrpt <-
     toF("JsonReport", "file.report", "json", "application/json")
 
-  reseqCond = toF("COND_RESEQ", "reseq-conditions", "json", "application/json")
+  reseqCond = toF("COND_RESEQ",
+                  "reseq-conditions",
+                  "json",
+                  "application/json")
 
   return(c(
     FASTA = fasta,
@@ -189,7 +210,9 @@ SymbolTypes <- .toSymbolTypes()
 
 .toResourceTypes <- function() {
   resourceTypes <-
-    list(TMP_DIR = "$tmpdir", TMP_FILE = "$tmpfile", LOG_FILE = "$logfile")
+    list(TMP_DIR = "$tmpdir",
+         TMP_FILE = "$tmpfile",
+         LOG_FILE = "$logfile")
   return(resourceTypes)
 }
 
@@ -203,18 +226,18 @@ ResourceTypes <- .toResourceTypes()
 #' Model For Reseq Condition
 #' @export
 #'
-setClass("ReseqCondition", representation(
-  condId = "character",
-  subreadset = "character",
-  alignmentset = "character",
-  referenceset = "character"
- )
+setClass(
+  "ReseqCondition",
+  representation(
+    condId = "character",
+    subreadset = "character",
+    alignmentset = "character",
+    referenceset = "character"
+  )
 )
 
 #' Model for ReseqConditions
 #' @export
-setClass("ReseqConditions", representation(
-  pipelineId = "character",
-  conditions = "list"
-  )
-)
+setClass("ReseqConditions",
+         representation(pipelineId = "character",
+                        conditions = "list"))

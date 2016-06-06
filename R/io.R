@@ -1,7 +1,7 @@
 # IO parsing for TCs and RTCs
 
 # Should grab this from DESCRIPTION
-PB_COMMANDR_VERSION <- "0.3.2"
+PB_COMMANDR_VERSION <- "0.3.3"
 
 #' General func to load JSON from a file
 #' @export
@@ -20,12 +20,29 @@ loadJsonFromFile <- function(path) {
 
 dToInputType <- function(d) {
   # fileType should be an obj
-  return(methods::new("InputFileType", title = d$title, id=d$title, fileTypeId=d$file_type_id, description = d$description))
+  return(
+    methods::new(
+      "InputFileType",
+      title = d$title,
+      id = d$title,
+      fileTypeId = d$file_type_id,
+      description = d$description
+    )
+  )
 }
 
 dToOutputType <- function(d) {
   # fileType should be an obj
-  return(methods::new("OutputFileType", title = d$title, id=d$title, fileTypeId=d$file_type_id, description = d$description, baseName=d$default_name))
+  return(
+    methods::new(
+      "OutputFileType",
+      title = d$title,
+      id = d$title,
+      fileTypeId = d$file_type_id,
+      description = d$description,
+      baseName = d$default_name
+    )
+  )
 }
 
 #' convert the json to ToolContract instance
@@ -35,10 +52,19 @@ dToToolContract <- function(d) {
   inputFiles <- Map(dToInputType, tc$input_types)
   outputFiles <- Map(dToOutputType, tc$output_types)
   nproc <- tc$nproc
-  toolContractTask <- methods::new("ToolContractTask", name = tc$name, description = tc$description,
-    taskId = taskId, inputTypes = inputFiles, outputTypes = outputFiles, nproc = nproc)
+  toolContractTask <-
+    methods::new(
+      "ToolContractTask",
+      name = tc$name,
+      description = tc$description,
+      taskId = taskId,
+      inputTypes = inputFiles,
+      outputTypes = outputFiles,
+      nproc = nproc
+    )
   driver <- methods::new("ToolDriver", exe = d$driver$exe)
-  toolContract <- methods::new("ToolContract", task = toolContractTask, driver = driver)
+  toolContract <-
+    methods::new("ToolContract", task = toolContractTask, driver = driver)
   return(toolContract)
 }
 
@@ -52,27 +78,36 @@ loadToolContractFromPath <- function(path) {
 #' @param toolContract Tool Contract
 #' @export
 writeToolContract <- function(toolContract, jsonPath) {
-
   # TO FIX in the model - task options - task type - is distributed
-  logging::logdebug(paste("Writing tool contract", toolContract@task@taskId, "to", jsonPath))
+  logging::logdebug(paste(
+    "Writing tool contract",
+    toolContract@task@taskId,
+    "to",
+    jsonPath
+  ))
 
   desc <- paste("Tool Contract from ", toolContract@task@taskId)
-  authorComment <- paste("Created from pbcommandR version ", PB_COMMANDR_VERSION)
+  authorComment <-
+    paste("Created from pbcommandR version ", PB_COMMANDR_VERSION)
   isDistributed <- FALSE
   schemaOptions <- list()
 
   # The 'id' needs to be fixed. ft@fileTypeId_{index} this isn't really used in the
   # R 'quick' model, so it's fine.
   toInputType <- function(ft, i) {
-    file_type_id = ft@fileTypeId
+    file_type_id <- ft@fileTypeId
     # This is a bit weak, but will work for now.
     # the "id" needs to be unique
-    splitID = strsplit(ft@fileTypeId, "\\.")[[1]]
-    ext = splitID[length(splitID)]
+    splitID <- strsplit(ft@fileTypeId, "\\.")[[1]]
+    ext <- splitID[length(splitID)]
     #FIXME
-    return(list(file_type_id = file_type_id, id = paste("id", 0, tolower(ext),
-      sep = "_"), title = paste("Display name ", file_type_id), description = paste("File type ",
-                                                                                     file_type_id)))
+    return(list(
+      file_type_id = file_type_id,
+      id = paste("id", 0, tolower(ext),
+                 sep = "_"),
+      title = paste("Display name ", file_type_id),
+      description = paste("File type ", file_type_id)
+    ))
   }
 
   # The output adds a default output base name (without the extention)
@@ -85,24 +120,40 @@ writeToolContract <- function(toolContract, jsonPath) {
   inputTypes <- Map(toInputType, toolContract@task@inputTypes)
   outputTypes <- Map(toOutputType, toolContract@task@outputTypes)
 
-  jdriver <- list(serialization = "json", exe = toolContract@driver@exe)
+  jdriver <-
+    list(serialization = "json", exe = toolContract@driver@exe)
 
-  jt <- list(task_type = "pbsmrtpipe.task_types.standard", resource_types = list(),
-    description = desc, name = toolContract@task@name, nproc = toolContract@task@nproc,
-    is_distributed = isDistributed, schema_options = schemaOptions, tool_contract_id = toolContract@task@taskId,
-    input_types = inputTypes, output_types = outputTypes, comment = authorComment)
+  jt <-
+    list(
+      task_type = "pbsmrtpipe.task_types.standard",
+      resource_types = list(),
+      description = desc,
+      name = toolContract@task@name,
+      nproc = toolContract@task@nproc,
+      is_distributed = isDistributed,
+      schema_options = schemaOptions,
+      tool_contract_id = toolContract@task@taskId,
+      input_types = inputTypes,
+      output_types = outputTypes,
+      comment = authorComment
+    )
 
-  j <- list(version = PB_COMMANDR_VERSION, driver = jdriver, tool_contract_id = toolContract@task@taskId,
-    tool_contract = jt)
+  j <-
+    list(
+      version = PB_COMMANDR_VERSION,
+      driver = jdriver,
+      tool_contract_id = toolContract@task@taskId,
+      tool_contract = jt
+    )
 
-  jsonToolContract <- jsonlite::toJSON(j, pretty = TRUE, auto_unbox = TRUE)
+  jsonToolContract <-
+    jsonlite::toJSON(j, pretty = TRUE, auto_unbox = TRUE)
   cat(jsonToolContract, file = jsonPath)
   return(jsonToolContract)
 }
 
 #' Convert a dict to a Resolved Task Contract
 dictToResolvedToolContract <- function(d) {
-
   t <- d$resolved_tool_contract
   taskId <- t$tool_contract_id
 
@@ -117,9 +168,17 @@ dictToResolvedToolContract <- function(d) {
   taskOptions <- list()
   resources <- list()
 
-  resolvedToolContractTask <- methods::new("ResolvedToolContractTask", taskId = taskId,
-    taskType = taskType, inputFiles = inputFiles, outputFiles = outputFiles,
-    taskOptions = taskOptions, nproc = nproc, resources = resources)
+  resolvedToolContractTask <-
+    methods::new(
+      "ResolvedToolContractTask",
+      taskId = taskId,
+      taskType = taskType,
+      inputFiles = inputFiles,
+      outputFiles = outputFiles,
+      taskOptions = taskOptions,
+      nproc = nproc,
+      resources = resources
+    )
   driver <- methods::new("ToolDriver", exe = d$driver$exe)
   methods::new("ResolvedToolContract", task = resolvedToolContractTask, driver = driver)
 }
@@ -132,20 +191,26 @@ loadResolvedToolContractFromPath <- function(path) {
 }
 
 dictToReseqCondition <- function(d) {
-  return(methods::new("ReseqCondition",
-                      condId = d$condId,
-                      subreadset = d$subreadset,
-                      alignmentset = d$alignmentset,
-                      referenceset = d$referenceset))
+  return(
+    methods::new(
+      "ReseqCondition",
+      condId = d$condId,
+      subreadset = d$subreadset,
+      alignmentset = d$alignmentset,
+      referenceset = d$referenceset
+    )
+  )
 }
 
 
 dictToReseqConditions <- function(d) {
   pipelineId <- d$pipelineId
   conditions <- lapply(d$conditions, dictToReseqCondition)
-  return(methods::new("ReseqConditions",
-                      pipelineId = pipelineId,
-                      conditions = conditions))
+  return(methods::new(
+    "ReseqConditions",
+    pipelineId = pipelineId,
+    conditions = conditions
+  ))
 }
 
 #' Load Condition

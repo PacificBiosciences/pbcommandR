@@ -1,12 +1,45 @@
 # Example Task for Development
 
+# This to add to the NAMESPACE via devtools
+#' @importFrom stats lm
+#' @importFrom stats rnorm
+NULL
+
 #' Example Task for testing
 #' inputs = [FileTypes.Fasta]
 #' outputs = [FileTypes.Fasta]
 #' @export
 examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength) {
   logging::loginfo(paste("Writing filtered fasta to ", filteredFasta))
+  write(">r1\nACGT\n>r2\nACCCGGTTT\n", filteredFasta)
   return(0)
+}
+
+#' @title Example Plot Group
+#' @param outputPath = Abspath to output image, must be png.
+getExamplePlotGroup <- function(outputPath) {
+  plotGroupId <- "plotgroup_a"
+
+  # taken from
+  # http://www.cookbook-r.com/Graphs/Scatterplots_(ggplot2)/
+  set.seed(955)
+  dat <- data.frame(cond = rep(c("A", "B"), each=10),
+                    xvar = 1:20 + stats::rnorm(20,sd=3),
+                    yvar = 1:20 + stats::rnorm(20,sd=3))
+
+  ggplot2::ggplot(dat, ggplot2::aes(x=xvar, y=yvar)) +
+    ggplot2::geom_point(shape=1) +
+    ggplot2::geom_smooth(method=stats::lm)
+
+  ggplot2::ggsave(outputPath, plot = ggplot2::last_plot())
+
+  logging::loginfo(paste("wrote image to ", outputPath, sep = ""))
+  basePlotFileName <- basename(outputPath)
+  # see the above comment regarding ids. The Plots must always be provided
+  # as relative path to the output dir
+  p1 <- methods::new("ReportPlot", id = "dev_example", image = basePlotFileName)
+  pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1))
+  return(pg)
 }
 
 #' Example Task for Testing with emitting a report
@@ -14,9 +47,34 @@ examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength
 #' inputs = [FileTypes.Fasta]
 #' outputs = [FileTypes.Report]
 #' @export
-examplefastaReport <- function(pathToFasta, report) {
-  logging::loginfo(paste("Writing report of fasta file ", pathToFasta))
-  # Generate a report
+examplefastaReport <- function(pathToFasta, reportPath) {
+  logging::loginfo(paste("loading fasta file ", pathToFasta))
+  logging::loginfo(paste("will be writing report to ", reportPath))
+
+  imageName <- "report_plot.png"
+
+  reportDir <- dirname(reportPath)
+  imagePath <- file.path(reportDir, imageName)
+
+  reportUUID <- uuid::UUIDgenerate()
+  # report ids must be lower case and only match \
+  reportId <- "pbcommandr_dev_fasta"
+  version <- "3.1.0"
+  tables <- list()
+  attributes <- list()
+  plotGroups <- list(getExamplePlotGroup(imagePath))
+
+
+  report <- methods::new("Report",
+  uuid = reportUUID,
+  version = version,
+  id = reportId,
+  plotGroups = plotGroups,
+  attributes = attributes,
+  tables = tables)
+
+  writeReport(report, reportPath)
+  logging::loginfo(paste("Wrote report to ", reportPath))
   return(0)
 }
 
@@ -58,7 +116,7 @@ exampleToolRegistryBuilder <- function() {
   # could be more clever and use partial application for registry, but this is fine
   registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA),
     1, FALSE, runFilterFastaRtc)
-  registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA),
+  registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$REPORT),
     1, FALSE, runFastaReportRtc)
   registerTool(r, "helloWorld", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1,
     FALSE, runHelloWorldRtc)

@@ -1,0 +1,7 @@
+lint_package(".", 
+  linters = with_defaults(
+    object_camel_case_linter = NULL,
+    object_snake_case_linter,
+    line_length_linter(120)
+  )
+)

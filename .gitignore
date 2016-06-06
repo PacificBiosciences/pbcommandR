@@ -20,3 +20,4 @@ resolved-tool-contracts
 # setup packrat env
 setup.sh
 builder.sh
+mk.mk
