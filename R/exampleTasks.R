@@ -114,11 +114,11 @@ exampleToolRegistryBuilder <- function() {
   # can be called correctly.
   r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleHelloWorld.R run-rtc ")
   # could be more clever and use partial application for registry, but this is fine
-  registerTool(r, "filterFasta", "0.1.0", c(FileTypes$FASTA), c(FileTypes$FASTA),
+  registerTool(r, "filter_fasta", "0.1.1", c(FileTypes$FASTA), c(FileTypes$FASTA),
     1, FALSE, runFilterFastaRtc)
-  registerTool(r, "fastaReport", "0.1.0", c(FileTypes$FASTA), c(FileTypes$REPORT),
+  registerTool(r, "fasta_report", "0.1.1", c(FileTypes$FASTA), c(FileTypes$REPORT),
     1, FALSE, runFastaReportRtc)
-  registerTool(r, "helloWorld", "0.1.0", c(FileTypes$TXT), c(FileTypes$TXT), 1,
+  registerTool(r, "hello_world", "0.1.1", c(FileTypes$TXT), c(FileTypes$TXT), 1,
     FALSE, runHelloWorldRtc)
   return(r)
 }

@@ -25,7 +25,7 @@ helloReseqConditionReportMain <- function(reseqConditionsPath, reportOutputPath)
 
   a1 <- methods::new("ReportAttribute", id = "num_conditions", value = length(reseqConditions@conditions), name = "Number of Conditions")
 
-  report <- methods::new("Report", id = "pbcommandR_hello_reseq", plotGroups = list(),
+  report <- methods::new("Report", id = "pbcommandr_hello_reseq", plotGroups = list(),
   attributes = list(a1), tables = list())
 
   writeReport(report, reportOutputPath)
@@ -36,11 +36,11 @@ helloReseqConditionReportMain <- function(reseqConditionsPath, reportOutputPath)
 # Resolved Tool Contract Wrappers to call lib main code
 
 #' Convert RTC to args for lib function,
-helloReseqCondtionRtc <- function(rtc) {
-  return(helloReseqCondtionMain(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
+helloReseqConditionRtc <- function(rtc) {
+  return(helloReseqConditionMain(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
 }
 
-helloReseqCondtionReportRtc <- function(rtc) {
+helloReseqConditionReportRtc <- function(rtc) {
   return(helloReseqConditionReportMain(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
 }
 
@@ -48,14 +48,14 @@ helloReseqCondtionReportRtc <- function(rtc) {
 #' @export
 exampleReseqconditionRegistryBuilder <- function() {
 
-  r <- registryBuilder("pbcommandR", "exampleReseqCondition.R run-rtc ")
+  r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleReseqConditions.R run-rtc ")
 
   registerTool(r,
-               "hello_reseq_condition", "0.1.0",
-               c(FileTypes$RESEQ_COND), c(FileTypes$TXT), 1, FALSE, helloReseqCondtionRtc)
+               "hello_reseq_condition", "0.1.1",
+               c(FileTypes$RESEQ_COND), c(FileTypes$TXT), 1, FALSE, helloReseqConditionRtc)
 
-  registerTool(r, "hello_reseq_condition_report", "0.1.0",
-    c(FileTypes$RESEQ_COND), c(FileTypes$REPORT), 1, FALSE, helloReseqCondtionReportRtc)
+  registerTool(r, "hello_reseq_condition_report", "0.1.1",
+    c(FileTypes$RESEQ_COND), c(FileTypes$REPORT), 1, FALSE, helloReseqConditionReportRtc)
   return(r)
 }
 

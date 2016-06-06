@@ -86,7 +86,7 @@ accPlotReseqCondtionRtc <- function(rtc) {
 #' @export
 exampleReseqconditionRegistryBuilder <- function() {
 
-  r <- registryBuilder("pbcommandR", "exampleAccuracyDensityPlot.R run-rtc ")
+  r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleAccuracyDensityPlot.R run-rtc ")
 
   registerTool(r,
                "accplot_reseq_condition",
