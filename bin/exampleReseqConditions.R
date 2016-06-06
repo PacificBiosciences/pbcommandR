@@ -36,11 +36,11 @@ helloReseqConditionReportMain <- function(reseqConditionsPath, reportOutputPath)
 # Resolved Tool Contract Wrappers to call lib main code
 
 #' Convert RTC to args for lib function,
-helloReseqCondtionRtc <- function(rtc) {
-  return(helloReseqCondtionMain(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
+helloReseqConditionRtc <- function(rtc) {
+  return(helloReseqConditionMain(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
 }
 
-helloReseqCondtionReportRtc <- function(rtc) {
+helloReseqConditionReportRtc <- function(rtc) {
   return(helloReseqConditionReportMain(rtc@task@inputFiles[1], rtc@task@outputFiles[1]))
 }
 
@@ -52,10 +52,10 @@ exampleReseqconditionRegistryBuilder <- function() {
 
   registerTool(r,
                "hello_reseq_condition", "0.1.1",
-               c(FileTypes$RESEQ_COND), c(FileTypes$TXT), 1, FALSE, helloReseqCondtionRtc)
+               c(FileTypes$RESEQ_COND), c(FileTypes$TXT), 1, FALSE, helloReseqConditionRtc)
 
   registerTool(r, "hello_reseq_condition_report", "0.1.1",
-    c(FileTypes$RESEQ_COND), c(FileTypes$REPORT), 1, FALSE, helloReseqCondtionReportRtc)
+    c(FileTypes$RESEQ_COND), c(FileTypes$REPORT), 1, FALSE, helloReseqConditionReportRtc)
   return(r)
 }
 
