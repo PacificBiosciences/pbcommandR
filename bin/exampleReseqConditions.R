@@ -48,7 +48,7 @@ helloReseqCondtionReportRtc <- function(rtc) {
 #' @export
 exampleReseqconditionRegistryBuilder <- function() {
 
-  r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleReseqCondition.R run-rtc ")
+  r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleReseqConditions.R run-rtc ")
 
   registerTool(r,
                "hello_reseq_condition", "0.1.1",
