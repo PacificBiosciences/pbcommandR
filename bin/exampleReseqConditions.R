@@ -25,7 +25,7 @@ helloReseqConditionReportMain <- function(reseqConditionsPath, reportOutputPath)
 
   a1 <- methods::new("ReportAttribute", id = "num_conditions", value = length(reseqConditions@conditions), name = "Number of Conditions")
 
-  report <- methods::new("Report", id = "pbcommandR_hello_reseq", plotGroups = list(),
+  report <- methods::new("Report", id = "pbcommandr_hello_reseq", plotGroups = list(),
   attributes = list(a1), tables = list())
 
   writeReport(report, reportOutputPath)
@@ -48,13 +48,13 @@ helloReseqCondtionReportRtc <- function(rtc) {
 #' @export
 exampleReseqconditionRegistryBuilder <- function() {
 
-  r <- registryBuilder("pbcommandR", "exampleReseqCondition.R run-rtc ")
+  r <- registryBuilder(PB_TOOL_NAMESPACE, "exampleReseqCondition.R run-rtc ")
 
   registerTool(r,
-               "hello_reseq_condition", "0.1.0",
+               "hello_reseq_condition", "0.1.1",
                c(FileTypes$RESEQ_COND), c(FileTypes$TXT), 1, FALSE, helloReseqCondtionRtc)
 
-  registerTool(r, "hello_reseq_condition_report", "0.1.0",
+  registerTool(r, "hello_reseq_condition_report", "0.1.1",
     c(FileTypes$RESEQ_COND), c(FileTypes$REPORT), 1, FALSE, helloReseqCondtionReportRtc)
   return(r)
 }
