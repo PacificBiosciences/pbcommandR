@@ -12,7 +12,8 @@ LazyData: true
 Depends:
   uuid,
   methods,
-  lintr
+  lintr,
+  stats
 Imports:
     uuid,
     data.table,

@@ -1,5 +1,10 @@
 # Example Task for Development
 
+# This to add to the NAMESPACE via devtools
+#' @importFrom stats lm
+#' @importFrom stats rnorm
+NULL
+
 #' Example Task for testing
 #' inputs = [FileTypes.Fasta]
 #' outputs = [FileTypes.Fasta]
@@ -10,20 +15,21 @@ examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength
   return(0)
 }
 
+#' @title Example Plot Group
 #' @param outputPath = Abspath to output image, must be png.
-getPlotGroup <- function(outputPath) {
+getExamplePlotGroup <- function(outputPath) {
   plotGroupId <- "plotgroup_a"
 
   # taken from
   # http://www.cookbook-r.com/Graphs/Scatterplots_(ggplot2)/
   set.seed(955)
   dat <- data.frame(cond = rep(c("A", "B"), each=10),
-                    xvar = 1:20 + rnorm(20,sd=3),
-                    yvar = 1:20 + rnorm(20,sd=3))
+                    xvar = 1:20 + stats::rnorm(20,sd=3),
+                    yvar = 1:20 + stats::rnorm(20,sd=3))
 
   ggplot2::ggplot(dat, ggplot2::aes(x=xvar, y=yvar)) +
     ggplot2::geom_point(shape=1) +
-    ggplot2::geom_smooth(method=lm)
+    ggplot2::geom_smooth(method=stats::lm)
 
   ggplot2::ggsave(outputPath, plot = ggplot2::last_plot())
 
@@ -56,7 +62,7 @@ examplefastaReport <- function(pathToFasta, reportPath) {
   version <- "3.1.0"
   tables <- list()
   attributes <- list()
-  plotGroups <- list(getPlotGroup(imagePath))
+  plotGroups <- list(getExamplePlotGroup(imagePath))
 
 
   report <- methods::new("Report",
