@@ -27,11 +27,11 @@ getExamplePlotGroup <- function(outputPath) {
                     xvar = 1:20 + stats::rnorm(20,sd=3),
                     yvar = 1:20 + stats::rnorm(20,sd=3))
 
-  ggplot2::ggplot(dat, ggplot2::aes(x=xvar, y=yvar)) +
+  toPrint = ggplot2::ggplot(dat, ggplot2::aes(x=xvar, y=yvar)) +
     ggplot2::geom_point(shape=1) +
     ggplot2::geom_smooth(method=stats::lm)
 
-  ggplot2::ggsave(outputPath, plot = ggplot2::last_plot())
+  ggplot2::ggsave(outputPath, plot = toPrint)
 
   logging::loginfo(paste("wrote image to ", outputPath, sep = ""))
   basePlotFileName <- basename(outputPath)
