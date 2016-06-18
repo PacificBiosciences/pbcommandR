@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.3.4",
   "driver": {
     "serialization": "json",
     "exe": "exampleAccuracyDensityPlot.R run-rtc "
@@ -24,13 +24,13 @@
     ],
     "output_types": [
       {
-        "file_type_id": "PacBio.FileTypes.txt",
-        "id": "id_0_txt",
-        "title": "Display name  PacBio.FileTypes.txt",
-        "description": "File type  PacBio.FileTypes.txt",
-        "default_name": "file"
+        "file_type_id": "PacBio.FileTypes.JsonReport",
+        "id": "id_0_jsonreport",
+        "title": "Display name  PacBio.FileTypes.JsonReport",
+        "description": "File type  PacBio.FileTypes.JsonReport",
+        "default_name": "file.report"
       }
     ],
-    "comment": "Created from pbcommandR version  0.3.3"
+    "comment": "Created from pbcommandR version  0.3.4"
   }
 }
