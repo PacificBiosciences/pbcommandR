@@ -86,14 +86,14 @@ accPlotReseqConditionMain <- function(reseqConditions, reportOutputPath) {
 
     # Create and add a plot group
     plotGroupId <- "plotgroup_a"
-    tp = ggplot(cd, aes(x=Accuracy, fill=Condition)) + geom_density() +
+    tp = ggplot(cd, aes(x=Accuracy, fill=Condition)) + geom_density(alpha=.5) +
       theme_bw(base_size=14) +
       labs(x="Accuracy (1 - Mean Errors Per Template Position)", title="Accuracy by Condition")
     png(img_path)
     print(tp)
     dev.off()
 
-    logging::loginfo(paste("Qrote image to ", img_path, sep = ""))
+    logging::loginfo(paste("Wrote image to ", img_path, sep = ""))
     # see the above comment regarding ids. The Plots must always be provided
     # as relative path to the output dir
     p1 <- methods::new("ReportPlot",
