@@ -1,7 +1,7 @@
 # IO parsing for TCs and RTCs
 
 # Should grab this from DESCRIPTION
-PB_COMMANDR_VERSION <- "0.3.3"
+PB_COMMANDR_VERSION <- "0.3.4"
 
 #' General func to load JSON from a file
 #' @export
