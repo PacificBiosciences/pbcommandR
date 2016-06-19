@@ -1,5 +1,5 @@
 {
-  "version": "0.3.3",
+  "version": "0.3.4",
   "driver": {
     "serialization": "json",
     "exe": "exampleAccuracyDensityPlot.R run-rtc "
@@ -11,7 +11,7 @@
     "description": "Tool Contract from  pbcommandR.tasks.accplot_reseq_condition",
     "name": "Task Name  pbcommandR.tasks.accplot_reseq_condition",
     "nproc": 1,
-    "is_distributed": false,
+    "is_distributed": true,
     "schema_options": [],
     "tool_contract_id": "pbcommandR.tasks.accplot_reseq_condition",
     "input_types": [
@@ -24,13 +24,13 @@
     ],
     "output_types": [
       {
-        "file_type_id": "PacBio.FileTypes.txt",
-        "id": "id_0_txt",
-        "title": "Display name  PacBio.FileTypes.txt",
-        "description": "File type  PacBio.FileTypes.txt",
-        "default_name": "file"
+        "file_type_id": "PacBio.FileTypes.JsonReport",
+        "id": "id_0_jsonreport",
+        "title": "Display name  PacBio.FileTypes.JsonReport",
+        "description": "File type  PacBio.FileTypes.JsonReport",
+        "default_name": "file.report"
       }
     ],
-    "comment": "Created from pbcommandR version  0.3.3"
+    "comment": "Created from pbcommandR version  0.3.4"
   }
 }

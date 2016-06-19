@@ -25,7 +25,8 @@ registerTool <- function(registeryObj, idx, version, inputTypes, outputTypes, np
 
   tcTask <- methods::new("ToolContractTask", taskId = taskId, taskType = taskType, inputTypes = inputTypes,
     outputTypes = outputTypes, taskOptions = taskOptions, nproc = nproc, resourceTypes = resources,
-    name = name, description = desc, version = version)
+    name = name, description = desc, version = version, isDistributed = isDistributed)
+
   # Need to clarify this.  {driver-base} run-rtc /path/to/rtc.json {driver-base}
   # emit-tool-contract /path/to/output-tool-contract.json
   driver <- methods::new("ToolDriver", exe = registeryObj$driver)
@@ -78,6 +79,3 @@ emitRegistryToolContractsTo <- function(registry, outputDir) {
   logging::loginfo(paste("Completed writing tool contracts to ", outputDir))
   return(0)
 }
-
-
-

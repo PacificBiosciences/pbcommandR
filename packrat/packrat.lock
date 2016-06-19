@@ -140,8 +140,8 @@ Hash: aa3d5b7912b5fed4b546ed5cd2a1760b
 
 Package: httr
 Source: CRAN
-Version: 1.1.0
-Hash: 27ffb4b4dbb8ac4019126070d66910fc
+Version: 1.2.0
+Hash: cd5c30acde81117f6b9da436dffeaedf
 Requires: R6, curl, jsonlite, mime, openssl
 
 Package: igraph
@@ -162,8 +162,8 @@ Hash: 488b93c2a4166db0d15f1e8d882cb1d4
 
 Package: jsonlite
 Source: CRAN
-Version: 0.9.21
-Hash: 4715435f79ce983ec7e041f6be4742f4
+Version: 0.9.22
+Hash: a465329f66afd33012e1aedfe5ba2e20
 
 Package: knitr
 Source: CRAN
@@ -178,8 +178,8 @@ Hash: ecf589b42cd284b03a4beb9665482d3e
 
 Package: lazyeval
 Source: CRAN
-Version: 0.1.10
-Hash: 9679f1ac7f6bc07bc79755f34cd15e1f
+Version: 0.2.0
+Hash: 3d6e7608e65bbf5cb170dab1e3c9ed8b
 
 Package: lintr
 Source: CRAN
@@ -239,8 +239,8 @@ Requires: digest, registry, stringr, xtable
 
 Package: plyr
 Source: CRAN
-Version: 1.8.3
-Hash: 7998a888024e465c15f40b078d17b5a6
+Version: 1.8.4
+Hash: 9710078c5fd126420ec039be1db44994
 Requires: Rcpp
 
 Package: praise

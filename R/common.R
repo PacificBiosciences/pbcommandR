@@ -54,7 +54,8 @@ setClass(
     resourceTypes = "vector",
     name = "character",
     description = "character",
-    version = "character"
+    version = "character",
+    isDistributed = "logical"
   )
 )
 
