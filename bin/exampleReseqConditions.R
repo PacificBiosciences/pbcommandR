@@ -5,6 +5,7 @@
 library(pbcommandR)
 library(argparser)
 library(logging)
+library(uuid)
 library(jsonlite, quietly = TRUE)
 
 #' Example Function that would be imported from your core library
@@ -23,10 +24,11 @@ helloReseqConditionReportMain <- function(reseqConditionsPath, reportOutputPath)
   reseqConditions <- loadReseqConditionsFromPath(reseqConditionsPath)
   logging::loginfo("Loaded conditions ")
 
+  reportUUID <- uuid::UUIDgenerate()
   a1 <- methods::new("ReportAttribute", id = "num_conditions", value = length(reseqConditions@conditions), name = "Number of Conditions")
 
   report <- methods::new("Report", id = "pbcommandr_hello_reseq", plotGroups = list(),
-  attributes = list(a1), tables = list())
+  attributes = list(a1), tables = list(), uuid <- reportUUID)
 
   writeReport(report, reportOutputPath)
   logging::loginfo("completed writing report")
