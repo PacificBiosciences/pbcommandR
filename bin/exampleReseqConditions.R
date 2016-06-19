@@ -28,7 +28,7 @@ helloReseqConditionReportMain <- function(reseqConditionsPath, reportOutputPath)
   a1 <- methods::new("ReportAttribute", id = "num_conditions", value = length(reseqConditions@conditions), name = "Number of Conditions")
 
   report <- methods::new("Report", id = "pbcommandr_hello_reseq", plotGroups = list(),
-  attributes = list(a1), tables = list(), uuid <- reportUUID)
+  attributes = list(a1), tables = list(), uuid = reportUUID, version = "0.3.3")
 
   writeReport(report, reportOutputPath)
   logging::loginfo("completed writing report")
