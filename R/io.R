@@ -52,15 +52,22 @@ dToToolContract <- function(d) {
   inputFiles <- Map(dToInputType, tc$input_types)
   outputFiles <- Map(dToOutputType, tc$output_types)
   nproc <- tc$nproc
+  isDistributed <- d$tool_contract$is_distributed
+
+  # FIXME, Not Supported yet.
+  # - Task Options
+  # - Resource Types
+
   toolContractTask <-
     methods::new(
       "ToolContractTask",
-      name = tc$name,
-      description = tc$description,
       taskId = taskId,
       inputTypes = inputFiles,
       outputTypes = outputFiles,
-      nproc = nproc
+      nproc = nproc,
+      name = tc$name,
+      description = tc$description,
+      isDistributed = isDistributed
     )
   driver <- methods::new("ToolDriver", exe = d$driver$exe)
   toolContract <-
@@ -74,22 +81,14 @@ loadToolContractFromPath <- function(path) {
   return(dToToolContract(loadJsonFromFile(path)))
 }
 
-#' Write Tool Contract to JSON file
-#' @param toolContract Tool Contract
+#' Convert Tool Contract into list/dict
 #' @export
-writeToolContract <- function(toolContract, jsonPath) {
-  # TO FIX in the model - task options - task type - is distributed
-  logging::logdebug(paste(
-    "Writing tool contract",
-    toolContract@task@taskId,
-    "to",
-    jsonPath
-  ))
-
+toolContractToD <- function(toolContract) {
   desc <- paste("Tool Contract from ", toolContract@task@taskId)
   authorComment <-
     paste("Created from pbcommandR version ", PB_COMMANDR_VERSION)
-  isDistributed <- FALSE
+  isDistributed <- toolContract@task@isDistributed
+
   schemaOptions <- list()
 
   # The 'id' needs to be fixed. ft@fileTypeId_{index} this isn't really used in the
@@ -146,8 +145,25 @@ writeToolContract <- function(toolContract, jsonPath) {
       tool_contract = jt
     )
 
-  jsonToolContract <-
-    jsonlite::toJSON(j, pretty = TRUE, auto_unbox = TRUE)
+  return(j)
+}
+
+#' Write Tool Contract to JSON file
+#' @param toolContract Tool Contract
+#' @export
+writeToolContract <- function(toolContract, jsonPath) {
+  # TO FIX in the model - task options - task type - is distributed
+  logging::logdebug(paste(
+    "Writing tool contract",
+    toolContract@task@taskId,
+    "to",
+    jsonPath
+  ))
+
+  j <- toolContractToD(toolContract)
+
+  jsonToolContract <- jsonlite::toJSON(j, pretty = TRUE, auto_unbox = TRUE)
+
   cat(jsonToolContract, file = jsonPath)
   return(jsonToolContract)
 }
