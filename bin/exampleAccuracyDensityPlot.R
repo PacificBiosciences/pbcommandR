@@ -34,8 +34,9 @@ combineConditions <- function(dfs, names) {
     stop("Can't create a condition column as it already exists.")
   }
   n = length(dfs)
-  Condition = factor(as.vector(sapply(1:n, function(i) rep(names[i], nrow(dfs[[i]])))),
-                      levels = names)
+  Condition = factor(as.vector(
+    unlist(sapply(1:n, function(i) rep(names[i], nrow(dfs[[i]]))))
+  ), levels = unique(names))
   nd = data.table::rbindlist(dfs)
   nd$Condition = Condition
   nd
