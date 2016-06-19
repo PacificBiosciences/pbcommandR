@@ -17,6 +17,7 @@ examplefilterFastaTask <- function(pathToFasta, filteredFasta, minSequenceLength
 
 #' @title Example Plot Group
 #' @param outputPath = Abspath to output image, must be png.
+#' @export
 getExamplePlotGroup <- function(outputPath) {
   plotGroupId <- "plotgroup_a"
 
