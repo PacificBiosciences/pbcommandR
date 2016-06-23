@@ -21,6 +21,5 @@ Imports:
     logging,
     pryr
 Suggests:
-    testthat,
-    lintr
+    testthat
 RoxygenNote: 5.0.1
