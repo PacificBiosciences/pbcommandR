@@ -13,10 +13,10 @@ setClass("ReportTableGroup",
 
 # The image should be relative path to the report.json file
 setClass("ReportPlot",
-         representation(id = "character", image = "character"))
+         representation(id = "character", image = "character", title = "character"))
 
 setClass("ReportPlotGroup",
-         representation(id = "character", plots = "list"))
+         representation(id = "character", plots = "list", title = "character"))
 
 # This needs to be updated to support Strings
 setClass(
@@ -57,7 +57,8 @@ writeReport <- function(r, outputPath) {
     return(list(
       caption = NA,
       image = p@image,
-      id = toI(p@id)
+      id = toI(p@id),
+      title = p@title
     ))
   }
 
@@ -72,7 +73,7 @@ writeReport <- function(r, outputPath) {
     return(list(
       id = toI(p@id),
       legend = NA,
-      title = "Title",
+      title = p@title,
       thumbnail = thumbnail,
       plots = plots
     ))
