@@ -58,7 +58,8 @@ writeReport <- function(r, outputPath) {
       caption = NA,
       image = p@image,
       id = toI(p@id),
-      title = p@title
+      title = p@title,
+      caption = p@title
     ))
   }
 
