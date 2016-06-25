@@ -95,7 +95,7 @@ writeReport <- function(r, outputPath) {
            values = df[,i])
     }
     cols = lapply(1:ncol(df), columnToD)
-    list(columns = cols)
+    cols
   }
 
   tableToD <- function(table) {
