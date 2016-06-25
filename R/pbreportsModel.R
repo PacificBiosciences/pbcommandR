@@ -3,20 +3,20 @@
 
 
 # pbReport Model
-setClass("ReportTable", representation(id = "character"))
+setClass("ReportTable", representation(title = "character",
+                                       id = "character",
+                                       data = "data.frame"),
+         prototype(title = "Data Frame"))
 
-# In the python code, a table is a relatively small list of values that can be
-# displayed in Portal It's primarily used as a summary of computed values In R,
-# this should be converted from a dataframe
-setClass("ReportTableGroup",
-         representation(id = "character", tables = "list"))
 
 # The image should be relative path to the report.json file
 setClass("ReportPlot",
-         representation(id = "character", image = "character", title = "character"))
+         representation(id = "character", image = "character", title = "character"),
+         prototype(title = "R Generated Plot") )
 
 setClass("ReportPlotGroup",
-         representation(id = "character", plots = "list", title = "character"))
+         representation(id = "character", plots = "list", title = "character"),
+         prototype(title = "A Plot"))
 
 # This needs to be updated to support Strings
 setClass(
@@ -31,11 +31,19 @@ setClass(
     id = "character",
     version = "character",
     uuid = "character",
+    title = "character",
     attributes = "list",
+    # Once we can name plot groups I will change the type here
     plotGroups = "list",
     tables = "list"
-  )
-)
+  ),
+  prototype(title = "Report",
+            tables = list(),
+            plotGroups = list()))
+
+
+
+
 
 # FIXME. Add loadReportFrom
 #' @export
@@ -55,10 +63,8 @@ writeReport <- function(r, outputPath) {
 
   plotToD <- function(p) {
     return(list(
-      caption = NA,
       image = p@image,
       id = toI(p@id),
-      title = p@title,
       caption = p@title
     ))
   }
@@ -80,17 +86,39 @@ writeReport <- function(r, outputPath) {
     ))
   }
 
+  columnsToD <- function(df, namePrefix) {
+    nms = colnames(df)
+    ids = paste(namePrefix, sub(" ", "", nms), (1:length(nms)), sep = ".")
+    columnToD <- function(i) {
+      list(header = nms[i],
+           id = ids[i],
+           values = df[,i])
+    }
+    cols = lapply(1:ncol(df), columnToD)
+    list(columns = cols)
+  }
+
+  tableToD <- function(table) {
+    list(id = table@id,
+         title = table@title,
+         columns = columnsToD(table@data, table@id))
+  }
+
   attributes <- Map(attributeToD, r@attributes)
   plotGroups <- Map(plotGroupToD, r@plotGroups)
+
+  tables <- Map(tableToD, r@tables)
+
 
   rx <- list(
     id = r@id,
     uuid = r@uuid,
     version = r@version,
     attributes = attributes,
+    title = r@title,
     dataset_uuid = list(),
     plotGroups = plotGroups,
-    tables = list()
+    tables = tables
   )
 
   sx <- jsonlite::toJSON(rx, pretty = TRUE, auto_unbox = TRUE)

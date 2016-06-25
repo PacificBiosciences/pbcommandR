@@ -20,29 +20,21 @@ test_that("Simple Report example", {
     plotGroupId <- "plotgroupa.readlength_plot"
 
     # see the above comment regarding ids
-    p1 <- methods::new("ReportPlot", id = "readlength", image = "image-relative-path.png")
-    p2 <- methods::new("ReportPlot", id = "accuracy", image = "image2-relative-path.png")
-    pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1, p2))
+    p1 <- methods::new("ReportPlot", id = "readlength", image = "image-relative-path.png", title = "Read Length")
+    p2 <- methods::new("ReportPlot", id = "accuracy", image = "image2-relative-path.png", title = "Accuracy")
+    pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1, p2), title = "My Plots")
     return(pg)
   }
 
-  getMockTableGroup <- function() {
+  getMockTables <- function() {
     # this should just converted from a dataframe
-    t <- methods::new("ReportTable", id = "my_table")
-    t2 <- methods::new("ReportTable", id = "my_readlength_table")
+    fakeData = data.frame(names = c("Something Good", "Something Bad"), values = 1:2)
+    colnames(fakeData) <- c("name spaced", "values")
+    t <- methods::new("ReportTable", id = "my_table", data = fakeData)
+    t2 <- methods::new("ReportTable", id = "my_readlength_table",
+                       title = "Not so great", data = fakeData)
     tables <- list(t, t2)
-    tg <- methods::new("ReportTableGroup", id = "mytable_id", tables = tables)
-    return(tg)
-  }
-
-  getMockReport <- function() {
-    plotGroup <- getMockPlotGroup()
-    attributeGroup <- getMockAttributeGroup()
-    tableGroup <- getMockTableGroup()
-    report <- methods::new("Report", id = "pbmilhouse_report_example", plotGroups = list(plotGroup),
-      attributeGroups = list(attributeGroup), tableGroups = list(tableGroup))
-
-    return(report)
+    return(tables)
   }
 
   reportOutputPath <- tempfile(pattern = "file", tmpdir = tempdir(), fileext = "report.json")
@@ -51,13 +43,14 @@ test_that("Simple Report example", {
 
   attributes <- getMockAttributeGroup()
   plotGroups <- list(getMockPlotGroup())
-  tables <- list(getMockPlotGroup)
+  tables <- getMockTables()
 
   reportUUID <- uuid::UUIDgenerate()
   version <- "3.1.0"
 
-  report <- methods::new("Report", uuid = reportUUID, version = version, id = "pbcommandr_hello_reseq", plotGroups = plotGroups,
-  attributes = attributes, tables = tables)
+  report <- methods::new("Report", uuid = reportUUID, version = version,
+                         id = "pbcommandr_hello_reseq", plotGroups = plotGroups,
+                          attributes = attributes, tables = tables)
   writeReport(report, reportOutputPath)
   cat(paste("Writing report ", reportOutputPath))
 
