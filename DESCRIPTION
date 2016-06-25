@@ -10,7 +10,6 @@ URL: http://github.com/mpkocher/pbcommandR
 BugReports: http://github.com/mpkocher/pbcommandR/issues
 LazyData: true
 Depends:
-  uuid,
   methods,
   stats
 Imports:
