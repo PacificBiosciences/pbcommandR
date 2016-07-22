@@ -20,8 +20,8 @@ test_that("Simple Report example", {
     plotGroupId <- "plotgroupa.readlength_plot"
 
     # see the above comment regarding ids
-    p1 <- methods::new("ReportPlot", id = "readlength", image = "image-relative-path.png", title = "Read Length")
-    p2 <- methods::new("ReportPlot", id = "accuracy", image = "image2-relative-path.png", title = "Accuracy")
+    p1 <- methods::new("ReportPlot", id = "readlength", image = "image-relative-path.png", title = "Read Length", caption = "Read Lenght Caption")
+    p2 <- methods::new("ReportPlot", id = "accuracy", image = "image2-relative-path.png", title = "Accuracy", caption = "Read Length Caption")
     pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1, p2), title = "My Plots")
     return(pg)
   }
@@ -46,7 +46,7 @@ test_that("Simple Report example", {
   tables <- getMockTables()
 
   reportUUID <- uuid::UUIDgenerate()
-  version <- "3.1.0"
+  version <- "1.0.0"
 
   report <- methods::new("Report", uuid = reportUUID, version = version,
                          id = "pbcommandr_hello_reseq", plotGroups = plotGroups,

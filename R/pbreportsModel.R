@@ -1,6 +1,8 @@
 #!/usr/bin/env Rscript
 
-
+# PacBio Report Data Model Schema
+#' @export
+PB_REPORT_SCHEMA_VERSION <- "1.0.0"
 
 # pbReport Model
 setClass("ReportTable", representation(title = "character",
@@ -11,7 +13,7 @@ setClass("ReportTable", representation(title = "character",
 
 # The image should be relative path to the report.json file
 setClass("ReportPlot",
-         representation(id = "character", image = "character", title = "character"),
+         representation(id = "character", image = "character", title = "character", caption = "character"),
          prototype(title = "R Generated Plot") )
 
 setClass("ReportPlotGroup",
@@ -37,7 +39,8 @@ setClass(
     plotGroups = "list",
     tables = "list"
   ),
-  prototype(title = "Report",
+  prototype(title = "Report", 
+            version = PB_REPORT_SCHEMA_VERSION,
             tables = list(),
             plotGroups = list()))
 
@@ -65,7 +68,8 @@ writeReport <- function(r, outputPath) {
     return(list(
       image = p@image,
       id = toI(p@id),
-      caption = p@title
+      title = p@title,
+      caption = p@caption
     ))
   }
 

@@ -1,7 +1,7 @@
 # IO parsing for TCs and RTCs
 
-# Should grab this from DESCRIPTION
-PB_COMMANDR_VERSION <- "0.3.4"
+# FIXME(mpkocher)(2016-22-2016) Should grab this from DESCRIPTION
+PB_COMMANDR_VERSION <- "0.3.6"
 
 #' General func to load JSON from a file
 #' @export

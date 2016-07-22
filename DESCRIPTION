@@ -1,6 +1,6 @@
 Package: pbcommandR
 Title: R Package for generating reports using SMRT-Link
-Version: 0.3.5
+Version: 0.3.6
 Authors@R: person("Michael", "Kocher", email = "mpkocher@pacificbiosciences.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph)
 Depends:

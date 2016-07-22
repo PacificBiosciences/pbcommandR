@@ -35,11 +35,14 @@ getExamplePlotGroup <- function(outputPath) {
   ggplot2::ggsave(outputPath, plot = toPrint)
 
   logging::loginfo(paste("wrote image to ", outputPath, sep = ""))
+  
+  plotCaption <- "Example Plot Group Caption"
+  
   basePlotFileName <- basename(outputPath)
   # see the above comment regarding ids. The Plots must always be provided
   # as relative path to the output dir
-  p1 <- methods::new("ReportPlot", id = "dev_example", image = basePlotFileName)
-  pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1))
+  p1 <- methods::new("ReportPlot", id = "dev_example", image = basePlotFileName, title = "Example Plot", caption = plotCaption)
+  pg <- methods::new("ReportPlotGroup", id = plotGroupId, plots = list(p1), title = "Example Plot Group Title")
   return(pg)
 }
 
@@ -57,12 +60,17 @@ examplefastaReport <- function(pathToFasta, reportPath) {
   reportDir <- dirname(reportPath)
   imagePath <- file.path(reportDir, imageName)
 
+  # This is a simple way to expose the Tool version in the report  
+  # FIXME(mpkocher)(2016-7-22) Currently report attributes only support Numeric types
+  reportAttribute <- methods::new("Attribute", id = "pbcommand_version", name = "pbcommandR Version", value = 3.46)
+
   reportUUID <- uuid::UUIDgenerate()
   # report ids must be lower case and only match \
   reportId <- "pbcommandr_dev_fasta"
-  version <- "3.1.0"
+  # This is the Report Schema Version
+  version <- PB_REPORT_SCHEMA_VERSION
   tables <- list()
-  attributes <- list()
+  attributes <- list(reportAttribute)
   plotGroups <- list(getExamplePlotGroup(imagePath))
 
 
