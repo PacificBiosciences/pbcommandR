@@ -14,7 +14,7 @@ setClass("ReportTable", representation(title = "character",
 # The image should be relative path to the report.json file
 setClass("ReportPlot",
          representation(id = "character", image = "character", title = "character", caption = "character"),
-         prototype(title = "R Generated Plot") )
+         prototype(title = "R Generated Plot", caption="") )
 
 setClass("ReportPlotGroup",
          representation(id = "character", plots = "list", title = "character"),
@@ -39,7 +39,7 @@ setClass(
     plotGroups = "list",
     tables = "list"
   ),
-  prototype(title = "Report", 
+  prototype(title = "Report",
             version = PB_REPORT_SCHEMA_VERSION,
             tables = list(),
             plotGroups = list()))
