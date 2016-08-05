@@ -1,7 +1,7 @@
 #' Helper function for verifying arguments
 #' @export
 chkClass <- function(var, classname, msg) {
-  if (class(var) != classname) {
+  if (!(classname %in% class(var))) {
     stop(msg)
   }
 }
