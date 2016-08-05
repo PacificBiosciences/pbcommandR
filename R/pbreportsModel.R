@@ -92,7 +92,7 @@ writeReport <- function(r, outputPath) {
 
   columnsToD <- function(df, namePrefix) {
     nms = colnames(df)
-    ids = paste(namePrefix, sub(" ", "", nms), (1:length(nms)), sep = ".")
+    ids = paste(namePrefix, sub(" ", "", tolower(nms)), (1:length(nms)), sep = ".")
     columnToD <- function(i) {
       list(header = nms[i],
            id = ids[i],
