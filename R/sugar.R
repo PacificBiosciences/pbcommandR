@@ -75,7 +75,7 @@ pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
   # Add a table to the report.
   write.table <- function(tbl, id = "table_name", title = "Default Title") {
     table = list(methods::new("ReportTable", title = title, id = id, data = tbl))
-    tablesToOutput <<- c(list(table), tablesToOutput)
+    tablesToOutput <<- c(table, tablesToOutput)
   }
 
   # Output the report file as json.
