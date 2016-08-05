@@ -88,7 +88,7 @@ pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
                            uuid = reportUUID,
                            version = version,
                            id = reportId,
-                           plotGroups = pg,
+                           plotGroups = list(pg),
                            attributes = attributes,
                            tables = tablesToOutput)
 
