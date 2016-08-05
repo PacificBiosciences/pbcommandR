@@ -36,7 +36,8 @@ chkPng <- function(fname) {
 pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
 
   conditionFile = conditionFile
-  reportOutputPath = outputFile
+  reportOutputPath <- dirname(outputFile)
+  reportOutputFile = outputFile
   reportUUID <- uuid::UUIDgenerate()
   reportId <- reportid
   version <- version
@@ -91,8 +92,8 @@ pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
                            attributes = attributes,
                            tables = tablesToOutput)
 
-    writeReport(report, reportOutputPath)
-    logging::loginfo(paste("Wrote report to ", reportOutputPath))
+    writeReport(report, reportOutputFile)
+    logging::loginfo(paste("Wrote report to ", reportOutputFile))
   }
 
   # Return a list with functions that capture this functions environment
