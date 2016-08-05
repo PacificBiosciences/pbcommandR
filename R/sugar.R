@@ -101,7 +101,8 @@ pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
   list(condition.table = cond_table,
        ggsave = ggsave,
        write.table = write.table,
-       write.report = write.report)
+       write.report = write.report,
+       outputPath = reportOutputPath)
 }
 
 #' Create a resequencing job tool wrapper using a function that takes an object
