@@ -4,6 +4,12 @@
 #' @export
 PB_REPORT_SCHEMA_VERSION <- "1.0.0"
 
+convertIDs <- function(str) {
+    str = gsub("[[:punct:]]|\\s", "", str)
+    tolower(str)
+}
+
+
 # pbReport Model
 setClass("ReportTable", representation(title = "character",
                                        id = "character",
@@ -14,7 +20,7 @@ setClass("ReportTable", representation(title = "character",
 # The image should be relative path to the report.json file
 setClass("ReportPlot",
          representation(id = "character", image = "character", title = "character", caption = "character"),
-         prototype(title = "R Generated Plot", caption="") )
+         prototype(title = "R Generated Plot", caption = "") )
 
 setClass("ReportPlotGroup",
          representation(id = "character", plots = "list", title = "character"),
@@ -67,7 +73,7 @@ writeReport <- function(r, outputPath) {
   plotToD <- function(p) {
     return(list(
       image = p@image,
-      id = toI(p@id),
+      id = toI(convertIDs(p@id)),
       title = p@title,
       caption = p@caption
     ))
@@ -82,7 +88,7 @@ writeReport <- function(r, outputPath) {
     }
 
     return(list(
-      id = toI(p@id),
+      id = toI(convertIDs(p@id)),
       legend = NA,
       title = p@title,
       thumbnail = thumbnail,
@@ -92,7 +98,7 @@ writeReport <- function(r, outputPath) {
 
   columnsToD <- function(df, namePrefix) {
     nms = colnames(df)
-    ids = paste(namePrefix, sub(" ", "", tolower(nms)), (1:length(nms)), sep = ".")
+    ids = paste(namePrefix, convertIDs(nms), (1:length(nms)), sep = ".")
     columnToD <- function(i) {
       list(header = nms[i],
            id = ids[i],
@@ -103,6 +109,7 @@ writeReport <- function(r, outputPath) {
   }
 
   tableToD <- function(table) {
+    table@id = convertIDs(table@id)
     list(id = table@id,
          title = table@title,
          columns = columnsToD(table@data, table@id))
@@ -115,7 +122,7 @@ writeReport <- function(r, outputPath) {
 
 
   rx <- list(
-    id = r@id,
+    id = convertIDs(r@id),
     uuid = r@uuid,
     version = r@version,
     attributes = attributes,

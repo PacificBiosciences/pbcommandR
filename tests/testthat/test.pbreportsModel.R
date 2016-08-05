@@ -56,3 +56,10 @@ test_that("Simple Report example", {
 
   expect_that(10, equals(10))
 })
+
+
+test_that("Name conversion okay", {
+  bad = c("ASDF@#%adfa adfa", "ASFASD _ )")
+  good = pbcommandR:::convertIDs(bad)
+  expect_equal(c("asdfadfaadfa", "asfasd"), good)
+  })
