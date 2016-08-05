@@ -35,8 +35,7 @@ makeReport <- function(report) {
   # To save a data.frame call this function, also with additional arguments
   report$write.table(conditions,
                      id = "some_lame_id",
-                     title = "An important table",
-                     caption = "Note how important it is")
+                     title = "An important table")
 
   # At the end of this function we need to call this last, it outputs the report
   report$write.report()
