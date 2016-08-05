@@ -20,7 +20,7 @@ library(tidyr, quietly = TRUE)
 makeReport <- function(report) {
   # Call this function to get a data frame of conditions, which is a data frame containing
   # four columns with the ConditionName, Subreadset, Alignmentset, Referenceset
-  conditions = report$cond_table
+  conditions = report$condition.table
 
 
   # To save a plot into the output report, we simply call this ggsave funciton
@@ -29,11 +29,11 @@ makeReport <- function(report) {
   report$ggsave("filename.png",
                 myplot,
                 id = "some_lame_id",
-                title ="My Fantastic Plot!",
+                title = "My Fantastic Plot!",
                 caption = "This is really fantastic.")
 
   # To save a data.frame call this function, also with additional arguments
-  report$write.table(cond_table,
+  report$write.table(conditions,
                      id = "some_lame_id",
                      title = "An important table",
                      caption = "Note how important it is")
