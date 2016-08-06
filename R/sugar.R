@@ -28,6 +28,7 @@ chkPng <- function(fname) {
 #' This could also be accomplished using the newer reference classes introduced
 #' in R version 2.12.  However I haven't seen those used at PacBio yet and it's
 #' less elegant, so will avoid introducing new syntax.
+#'
 #' @param reSeqConditions The file with the resequencing conditions.
 #' @param reportOutputPath The path of the report JSON file to write.
 #' @param reportid A lowercase/no-special character ID.
@@ -74,6 +75,7 @@ pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
 
   # Add a table to the report.
   write.table <- function(tbl, id = "table_name", title = "Default Title") {
+    tbl = data.frame(tbl) # Convert as data.table versions become JSON in a bad way
     table = list(methods::new("ReportTable", title = title, id = id, data = tbl))
     tablesToOutput <<- c(table, tablesToOutput)
   }
