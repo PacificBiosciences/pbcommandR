@@ -4,14 +4,12 @@ Version: 0.3.6
 Authors@R: person("Michael", "Kocher", email = "mpkocher@pacificbiosciences.com", role = c("aut", "cre"))
 Description: What the package does (one paragraph)
 Depends:
-    R (>= 3.1.2)
+    methods,
+    stats
 License: BSD-3-Clause
 URL: http://github.com/PacificBiosciences/pbcommandR
 BugReports: http://github.com/PacificBiosciences/pbcommandR/issues
 LazyData: true
-Depends:
-  methods,
-  stats
 Imports:
     uuid,
     data.table,
@@ -19,5 +17,7 @@ Imports:
     jsonlite,
     logging
 Suggests:
+    ggplot2,
+    RColorBrewer,
     testthat
 RoxygenNote: 5.0.1
