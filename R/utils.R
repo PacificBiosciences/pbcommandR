@@ -1,0 +1,34 @@
+#' Convert a resolved condition JSON into a CSV for resubmission using the web portal.
+#'
+#' This is utility function to convert resolved json files back into
+#' data that can be input into the web tool for resubmission.  Useful for restarting users jobs.
+#'
+#' condId,host,jobId
+#' A_30662,smrtlink-beta,030662
+#' B_30733,smrtlink-beta,030733
+#' C_31988,smrtlink-beta,031988
+#' D_32051,smrtlink-beta,032051
+#' E_31989,smrtlink-beta,031989
+#' F_32052,smrtlink-beta,032052
+#' G_32175,smrtlink-beta,032175
+#' H_32288,smrtlink-beta,032288
+#' I_32332,smrtlink-beta,032332
+#' J_32504,smrtlink-beta,032504
+#' K_32539,smrtlink-beta,032539
+#' L_32425,smrtlink-beta,032425
+#' Example:  printConditionCSV("/pbi/dept/secondary/siv/smrtlink/smrtlink-internal/services_ui/smrtlink_services_ui-internal-0.9.0-185199/reseq-conditions/reseq-conditions-495705c0-5d80-4716-9713-c79023855773.json")
+#' @export
+printConditionCSV <- function(fname) {
+  d = jsonlite::fromJSON(fname)
+  conds = d[[2]]
+  returnLine <- function(x) {
+    aln = as.character(x["alignmentset"])
+    cond = x["condId"]
+    sp = strsplit(aln, "/")[[1]]
+    id = sp[12]
+    server = sp[7]
+    paste(cond, server, id, sep = ",")
+  }
+  res = apply(conds, 1, returnLine)
+  message(paste(c("condId,host,jobId", res), collapse = "\n"))
+}
