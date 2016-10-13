@@ -174,6 +174,8 @@ TaskTypes <-
   fasta <- toF("Fasta", "file", "fasta", "text/plain")
   fastq <- toF("Fastq", "file", "fastq", "text/plain")
   gff <- toF("Gff", "file", "gff", "text/plain")
+  ds_align <- toF("AlignmentSet", "file", "alignmentset.xml", "application/xml")
+  csv <- toF("csv", "file", "csv", "application/xml")
   pbrpt <-
     toF("JsonReport", "file.report", "json", "application/json")
 
@@ -188,7 +190,9 @@ TaskTypes <-
     GFF = gff,
     REPORT = pbrpt,
     TXT = txt,
-    RESEQ_COND = reseqCond
+    RESEQ_COND = reseqCond,
+    CSV = csv,
+    DS_ALIGN = ds_align
   ))
 }
 
