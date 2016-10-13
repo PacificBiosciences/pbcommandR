@@ -131,6 +131,10 @@ toFileTypeId <-
   function(s) {
     return(paste("PacBio", "FileTypes", s, sep = '.'))
   }
+toDataSetId <-
+  function(s) {
+    return(paste("PacBio", "DataSet", s, sep = '.'))
+  }
 #' @export
 toTaskOptionId <- function(s) {
   return(.toId("task_options", s))
@@ -149,11 +153,11 @@ TaskTypes <-
 
 .toFileTypes <- function() {
   # these are ported from pbsystem file types
-  toF <- function(idx, baseName, fileExt, mimeType) {
+  toF <- function(idx, baseName, fileExt, mimeType, idConverter = toFileTypeId) {
     f <-
       methods::new(
         "FileType",
-        fileTypeId = toFileTypeId(idx),
+        fileTypeId = idConverter(idx),
         baseName = baseName,
         fileExt =
           fileExt,
@@ -174,8 +178,10 @@ TaskTypes <-
   fasta <- toF("Fasta", "file", "fasta", "text/plain")
   fastq <- toF("Fastq", "file", "fastq", "text/plain")
   gff <- toF("Gff", "file", "gff", "text/plain")
-  ds_align <- toF("AlignmentSet", "file", "alignmentset.xml", "application/xml")
-  ds_ref <- toF("ReferenceSet", "file", "referenceset.xml", "application/xml")
+  ds_align <- toF("AlignmentSet", "file", "alignmentset.xml", "application/xml",
+                  idConverter = toDataSetId)
+  ds_ref <- toF("ReferenceSet", "file", "referenceset.xml", "application/xml",
+                idConverter = toDataSetId)
   csv <- toF("csv", "file", "csv", "application/xml")
   pbrpt <-
     toF("JsonReport", "file.report", "json", "application/json")
