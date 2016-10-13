@@ -193,7 +193,8 @@ TaskTypes <-
     TXT = txt,
     RESEQ_COND = reseqCond,
     CSV = csv,
-    DS_ALIGN = ds_align
+    DS_ALIGN = ds_align,
+    DS_REF = ds_ref
   ))
 }
 
