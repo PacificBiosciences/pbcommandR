@@ -81,7 +81,7 @@ writeReport <- function(r, outputPath) {
 
   plotGroupToD <- function(p) {
     plots <- Map(plotToD, p@plots)
-    if (length(p@plots) == 0) {
+    if (length(p@plots) != 0) {
       thumbnail <- p@plots[[1]]@image
     } else {
       thumbnail <- NA
