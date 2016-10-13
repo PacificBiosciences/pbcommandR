@@ -175,6 +175,7 @@ TaskTypes <-
   fastq <- toF("Fastq", "file", "fastq", "text/plain")
   gff <- toF("Gff", "file", "gff", "text/plain")
   ds_align <- toF("AlignmentSet", "file", "alignmentset.xml", "application/xml")
+  ds_ref <- toF("ReferenceSet", "file", "referenceset.xml", "application/xml")
   csv <- toF("csv", "file", "csv", "application/xml")
   pbrpt <-
     toF("JsonReport", "file.report", "json", "application/json")
