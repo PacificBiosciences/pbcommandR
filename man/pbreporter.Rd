@@ -4,10 +4,13 @@
 \alias{pbreporter}
 \title{Sugar object to make it easier to generate reports.}
 \usage{
-pbreporter(conditionFile, outputFile, reportid, version = "0.0.1")
+pbreporter(conditionFile, outputFile, reportid, reportTitle,
+  version = "0.0.1")
 }
 \arguments{
 \item{reportid}{A lowercase/no-special character ID.}
+
+\item{reportTitle}{The name of the report.}
 
 \item{version}{The version number (1.0.0)}
 
