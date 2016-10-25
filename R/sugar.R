@@ -32,9 +32,10 @@ chkPng <- function(fname) {
 #' @param reSeqConditions The file with the resequencing conditions.
 #' @param reportOutputPath The path of the report JSON file to write.
 #' @param reportid A lowercase/no-special character ID.
+#' @param reportTitle The name of the report.
 #' @param version The version number (1.0.0)
 #' @export
-pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
+pbreporter <- function(conditionFile, outputFile, reportid, reportTitle, version = "0.0.1") {
 
   conditionFile = conditionFile
   reportOutputPath <- dirname(outputFile)
@@ -89,6 +90,7 @@ pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
     report <- methods::new("Report",
                            uuid = reportUUID,
                            version = version,
+                           title = reportTitle,
                            id = reportId,
                            plotGroups = list(pg),
                            attributes = attributes,
@@ -118,6 +120,7 @@ pbreporter <- function(conditionFile, outputFile, reportid, version = "0.0.1") {
 #' @param distributed Should this run on the server or the cluster?
 #' @export
 pbReseqJob <- function(scriptFileName, toolName, func, reportid,
+                       reportTitle,
                        version = "0.0.1", nproc = 1,
                        distributed = TRUE) {
 
@@ -125,7 +128,8 @@ pbReseqJob <- function(scriptFileName, toolName, func, reportid,
   wrappedFunc <- function(rtc) {
     conditionFile = rtc@task@inputFiles[1]
     reportFile = rtc@task@outputFiles[1]
-    rpt = pbreporter(conditionFile, reportFile, reportid = reportid, version = version)
+    rpt = pbreporter(conditionFile, reportFile, reportid = reportid,
+                     reportTitle = reportTitle, version = version)
     func(rpt)
   }
 
